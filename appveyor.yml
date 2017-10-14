@@ -1,11 +1,17 @@
 version: 1.2.0
 image:
 - Visual Studio 2017
+assembly_info:
+  patch: true
+  file: '**\AssemblyInfo.*'
+  assembly_version: '{version}'
+  assembly_file_version: '{version}'
+  assembly_informational_version: '{version}'
 configuration: Release
 after_build:
 - cmd: >-
     mkdir artefacts
-    nuget pack -OutputDirectory artefacts
+    nuget pack RCT2ObjectData\RCT2ObjectData.csproj -OutputDirectory artefacts -Properties Configuration=Release
 artifacts:
 - path: 'artefacts\**\*.nupkg'
 deploy:
@@ -15,4 +21,4 @@ deploy:
   artifact: /.*\.nupkg/
   on:
     branch: master
-appveyor_repo_tag: true
+    appveyor_repo_tag: true
