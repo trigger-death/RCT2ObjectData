@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>RCT2Tools.ObjectData</id>
+    <version>$version$</version>
+    <title>RCT2Tools.ObjectData</title>
+    <authors>Robert Jordan</authors>
+    <owners>Ted John</owners>
+    <projectUrl>https://github.com/trigger-death/RCT2ObjectData</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Library for reading and writing RCT2 data files.</description>
+    <copyright>Copyright Robert Jordan 2017</copyright>
+    <tags>RollerCoaster Tycoon RCT2</tags>
+  </metadata>
+</package>
