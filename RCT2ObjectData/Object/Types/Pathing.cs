@@ -31,6 +31,40 @@ namespace RCT2ObjectData.Objects.Types {
 		//========= CONSTRUCTORS =========
 		#region Constructors
 
+		/**<summary>Sets the sprites for all the paths connections in the dictionary.</summary>*/
+		static Pathing() {
+			// No corners connecting
+			for (int i = 0; i < 16; i++) {
+				Pathing.PathSpriteIndexes.Add((uint)i, i);
+			}
+
+			// All straights connecting
+			for (int i = 1; i < 16; i++) {
+				Pathing.PathSpriteIndexes.Add((uint)i << 4 | 0xF, 36 + (i - 1));
+			}
+
+			// Not all straights connecting (couldn't find a pattern)
+			int index = 20;
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00010011", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00100110", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00010111", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00100111", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00110111", 2), index++);
+
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10001001", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00011011", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10001011", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10011011", 2), index++);
+
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01001100", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01001101", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10001101", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("11001101", 2), index++);
+
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00101110", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01001110", 2), index++);
+			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01101110", 2), index++);
+		}
 		/**<summary>Constructs the default object.</summary>*/
 		public Pathing() : base() {
 			this.Header				= new PathingHeader();
@@ -474,45 +508,6 @@ namespace RCT2ObjectData.Objects.Types {
 			}
 
 			return index;
-		}
-
-		#endregion
-		//========= PATH SPRITES =========
-		#region Path Sprites
-
-		/**<summary>Sets the sprites for all the paths connections in the dictionary.</summary>*/
-		public static void SetPathSprites() {
-			// No corners connecting
-			for (int i = 0; i < 16; i++) {
-				Pathing.PathSpriteIndexes.Add((uint)i, i);
-			}
-
-			// All straights connecting
-			for (int i = 1; i < 16; i++) {
-				Pathing.PathSpriteIndexes.Add((uint)i << 4 | 0xF, 36 + (i - 1));
-			}
-
-			// Not all straights connecting (couldn't find a pattern)
-			int index = 20;
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00010011", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00100110", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00010111", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00100111", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00110111", 2), index++);
-
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10001001", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00011011", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10001011", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10011011", 2), index++);
-
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01001100", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01001101", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10001101", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("11001101", 2), index++);
-
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00101110", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01001110", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01101110", 2), index++);
 		}
 
 		#endregion
