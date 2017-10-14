@@ -5,7 +5,7 @@
     <version>$version$</version>
     <title>RCT2Tools.ObjectData</title>
     <authors>Robert Jordan</authors>
-    <owners>Ted John</owners>
+    <owners>Robert Jordan, Ted John</owners>
     <projectUrl>https://github.com/trigger-death/RCT2ObjectData</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Library for reading and writing RCT2 data files.</description>
