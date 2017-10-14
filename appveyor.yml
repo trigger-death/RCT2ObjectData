@@ -1,0 +1,18 @@
+version: 1.2.0
+image:
+- Visual Studio 2017
+configuration: Release
+after_build:
+- cmd: >-
+    mkdir artefacts
+    nuget pack -OutputDirectory artefacts
+artifacts:
+- path: 'artefacts\**\*.nupkg'
+deploy:
+  provider: NuGet
+  api_key:
+    secure: iSwkaG9yWD6WUaWH3JwB3o7go4cc08IaJkklxSnuIoDY0i6/zQEOG8/kPCAOEN4a
+  artifact: /.*\.nupkg/
+  on:
+    branch: master
+appveyor_repo_tag: true
