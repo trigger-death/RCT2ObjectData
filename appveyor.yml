@@ -11,6 +11,7 @@ configuration: Release
 after_build:
 - cmd: >-
     mkdir artefacts
+    
     nuget pack RCT2ObjectData\RCT2ObjectData.csproj -OutputDirectory artefacts -Properties Configuration=Release
 artifacts:
 - path: 'artefacts\**\*.nupkg'
