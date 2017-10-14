@@ -8,4 +8,4 @@ A library for reading RCT2 Objects. Maintained separately from RCT2 Tools at the
 
 ## NuGet
 
-    PM> Install-Package winpty.NET
+    PM> Install-Package Install-Package RCT2Tools.ObjectData
