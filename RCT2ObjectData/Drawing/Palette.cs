@@ -303,58 +303,58 @@ namespace RCT2ObjectData.Drawing {
 
 		/**<summary>Constructs the default palette.</summary>*/
 		public Palette() {
-			this.colors			= new Color[1];
-			this.entry			= new ImageEntry();
-			this.entry.Flags	= ImageFlags.PaletteEntries;
-			this.entry.Width	= 1;
-			this.entry.Height	= 0;
-			this.entry.XOffset	= 0;
-			this.entry.YOffset	= 0;
+			colors			= new Color[1];
+			entry			= new ImageEntry();
+			entry.Flags		= ImageFlags.PaletteEntries;
+			entry.Width		= 1;
+			entry.Height	= 0;
+			entry.XOffset	= 0;
+			entry.YOffset	= 0;
 		}
 		/**<summary>Constructs a palette with the specified number of colors.</summary>*/
 		public Palette(int numColors) {
-			this.colors			= new Color[numColors];
-			this.entry			= new ImageEntry();
-			this.entry.Flags	= ImageFlags.PaletteEntries;
-			this.entry.Width	= (short)numColors;
-			this.entry.Height	= 0;
-			this.entry.XOffset	= 0;
-			this.entry.YOffset	= 0;
+			colors			= new Color[numColors];
+			entry			= new ImageEntry();
+			entry.Flags		= ImageFlags.PaletteEntries;
+			entry.Width		= (short)numColors;
+			entry.Height	= 0;
+			entry.XOffset	= 0;
+			entry.YOffset	= 0;
 		}
 		/**<summary>Constructs a palette with the specified number of colors and offset.</summary>*/
 		public Palette(int numColors, int offset) {
-			this.colors			= new Color[numColors];
-			this.entry			= new ImageEntry();
-			this.entry.Flags	= ImageFlags.PaletteEntries;
-			this.entry.Width	= (short)numColors;
-			this.entry.Height	= 0;
-			this.entry.XOffset	= (short)offset;
-			this.entry.YOffset	= 0;
+			colors			= new Color[numColors];
+			entry			= new ImageEntry();
+			entry.Flags		= ImageFlags.PaletteEntries;
+			entry.Width		= (short)numColors;
+			entry.Height	= 0;
+			entry.XOffset	= (short)offset;
+			entry.YOffset	= 0;
 		}
 		/**<summary>Constructs a palette with the specified colors.</summary>*/
 		public Palette(Color[] colors) {
-			this.colors			= colors;
-			this.entry			= new ImageEntry();
-			this.entry.Flags	= ImageFlags.PaletteEntries;
-			this.entry.Width	= (short)colors.Length;
-			this.entry.Height	= 0;
-			this.entry.XOffset	= 0;
-			this.entry.YOffset	= 0;
+			this.colors		= colors;
+			entry			= new ImageEntry();
+			entry.Flags		= ImageFlags.PaletteEntries;
+			entry.Width		= (short)colors.Length;
+			entry.Height	= 0;
+			entry.XOffset	= 0;
+			entry.YOffset	= 0;
 		}
 		/**<summary>Constructs a palette with the specified colors and offset.</summary>*/
 		public Palette(Color[] colors, int offset) {
-			this.colors			= colors;
-			this.entry			= new ImageEntry();
-			this.entry.Flags	= ImageFlags.PaletteEntries;
-			this.entry.Width	= (short)colors.Length;
-			this.entry.Height	= 0;
-			this.entry.XOffset	= (short)offset;
-			this.entry.YOffset	= 0;
+			this.colors		= colors;
+			entry			= new ImageEntry();
+			entry.Flags		= ImageFlags.PaletteEntries;
+			entry.Width		= (short)colors.Length;
+			entry.Height	= 0;
+			entry.XOffset	= (short)offset;
+			entry.YOffset	= 0;
 		}
 		/**<summary>Constructs a palette with the specified image entry.</summary>*/
 		internal Palette(ImageEntry entry) {
-			this.colors			= new Color[entry.Width];
-			this.entry			= entry;
+			colors			= new Color[entry.Width];
+			this.entry		= entry;
 		}
 
 		#endregion
@@ -363,16 +363,16 @@ namespace RCT2ObjectData.Drawing {
 
 		/**<summary>Gets the list of colors in the palette.</summary>*/
 		public Color[] Colors {
-			get { return this.colors; }
+			get { return colors; }
 		}
 		/**<summary>Gets the number of colors in the palette.</summary>*/
 		public int NumColors {
-			get { return this.colors.Length; }
+			get { return colors.Length; }
 		}
 		/**<summary>Gets or sets the offset of the palette.</summary>*/
 		public int Offset {
-			get { return this.entry.XOffset; }
-			set { this.entry.XOffset = (short)value; }
+			get { return entry.XOffset; }
+			set { entry.XOffset = (short)value; }
 		}
 
 		#endregion
@@ -381,14 +381,7 @@ namespace RCT2ObjectData.Drawing {
 
 		/**<summary>Draws the palette into the specified graphics.</summary>*/
 		public void Draw(Graphics g, int x, int y, int colorWidth, int colorHeight) {
-			for (int i = 0; i < colors.Length; i++) {
-				Brush brush = new SolidBrush(colors[i]);
-				g.FillRectangle(brush, new Rectangle(
-					x + ((i + entry.XOffset) % 16) * colorWidth,
-					y + ((i + entry.XOffset) / 16) * colorHeight,
-					colorWidth, colorHeight));
-				brush.Dispose();
-			}
+			Draw(g, new Point(x, y), new Size(colorWidth, colorHeight));
 		}
 		/**<summary>Draws the palette into the specified graphics.</summary>*/
 		public void Draw(Graphics g, Point point, Size colorSize) {
@@ -400,6 +393,10 @@ namespace RCT2ObjectData.Drawing {
 					colorSize.Width, colorSize.Height));
 				brush.Dispose();
 			}
+		}
+		/**<summary>Creates a bitmap from the specified palette.</summary>*/
+		public Bitmap CreateImage(int colorWidth, int colorHeight) {
+			return CreateImage(new Size(colorWidth, colorHeight));
 		}
 		/**<summary>Creates a bitmap from the specified palette.</summary>*/
 		public Bitmap CreateImage(Size colorSize) {
@@ -419,17 +416,7 @@ namespace RCT2ObjectData.Drawing {
 
 		/**<summary>Draws the palette into the specified palette image.</summary>*/
 		public void Draw(PaletteImage p, int x, int y, int colorWidth, int colorHeight) {
-			for (int i = 0; i < colors.Length; i++) {
-				int x2 = ((i + entry.XOffset) % 16) * colorWidth;
-				int y2 = ((i + entry.XOffset) / 16) * colorHeight;
-				for (int x1 = 0; x1 < colorWidth; x1++) {
-					for (int y1 = 0; y1 < colorHeight; y1++) {
-						if (x + x1 + x2 >= 0 && y + y1 + y2 >= 0 && x + x1 + x2 < p.Width && y + y1 + y2 < p.Height) {
-							p.pixels[x + x1 + x2, y + y1 + y2] = (byte)(i + entry.XOffset);
-						}
-					}
-				}
-			}
+			Draw(p, new Point(x, y), new Size(colorWidth, colorHeight));
 		}
 		/**<summary>Draws the palette into the specified palette image.</summary>*/
 		public void Draw(PaletteImage p, Point point, Size colorSize) {
@@ -447,12 +434,12 @@ namespace RCT2ObjectData.Drawing {
 		}
 
 		#endregion
-		//=========== READING ============
-		#region Reading
+		//============ SAVING ============
+		#region Saving
 
-		/**<summary>Saves the palette to the specified file path.</summary>*/
-		public void Save(string path) {
-			BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write));
+		/**<summary>Saves the palette to the specified stream.</summary>*/
+		public void Save(Stream stream) {
+			BinaryWriter writer = new BinaryWriter(stream);
 			ImageDirectory imageDirectory = new ImageDirectory();
 			GraphicsData graphicsData = new GraphicsData(imageDirectory);
 			graphicsData.Add(this);
@@ -460,11 +447,32 @@ namespace RCT2ObjectData.Drawing {
 			long imageDirectoryPosition = writer.BaseStream.Position;
 			imageDirectory.Write(writer);
 			graphicsData.Write(writer);
+
+			long endPosition = stream.Position;
+
 			writer.BaseStream.Position = imageDirectoryPosition;
 			imageDirectory.Write(writer);
 
-			writer.Close();
+			stream.Position = endPosition;
 		}
+		/**<summary>Saves the palette to the specified file path.</summary>*/
+		public void Save(string path) {
+			using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write)) {
+				stream.SetLength(0);
+				Save(stream);
+			}
+		}
+		/**<summary>Saves the palette to a new buffer.</summary>*/
+		public byte[] ToBytes() {
+			using (MemoryStream stream = new MemoryStream()) {
+				Save(stream);
+				return stream.ToArray();
+			}
+		}
+
+		#endregion
+		//=========== LOADING ============
+		#region Loading
 
 		/**<summary>Returns a palette loaded from the specified stream.</summary>*/
 		public static Palette FromStream(Stream stream) {
@@ -473,16 +481,19 @@ namespace RCT2ObjectData.Drawing {
 			GraphicsData graphicsData = new GraphicsData(imageDirectory);
 			imageDirectory.Read(reader);
 			graphicsData.Read(reader);
-			reader.Close();
 			return graphicsData.GetPalette(0);
-		}
-		/**<summary>Returns a palette loaded from the specified buffer.</summary>*/
-		public static Palette FromBuffer(byte[] buffer) {
-			return FromStream(new MemoryStream(buffer));
 		}
 		/**<summary>Returns a palette loaded from the specified file.</summary>*/
 		public static Palette FromFile(string path) {
-			return FromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
+			using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read)) {
+				return FromStream(stream);
+			}
+		}
+		/**<summary>Returns a palette loaded from the specified buffer.</summary>*/
+		public static Palette FromBytes(byte[] data) {
+			using (MemoryStream stream = new MemoryStream(data)) {
+				return FromStream(stream);
+			}
 		}
 
 		#endregion

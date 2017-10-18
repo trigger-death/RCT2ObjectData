@@ -24,9 +24,9 @@ namespace RCT2ObjectData.Objects {
 
 		/**<summary>Constructs the default group info.</summary>*/
 		public GroupInfo() {
-			this.Flags = GroupInfoFlags.None;
-			this.FileName = "";
-			this.CheckSum = 0;
+			Flags = GroupInfoFlags.None;
+			FileName = "";
+			CheckSum = 0;
 		}
 
 		#endregion
@@ -35,25 +35,25 @@ namespace RCT2ObjectData.Objects {
 
 		/**<summary>Reads the group info.</summary>*/
 		public void Read(BinaryReader reader) {
-			this.Flags = (GroupInfoFlags)reader.ReadUInt32();
-			this.FileName = "";
+			Flags = (GroupInfoFlags)reader.ReadUInt32();
+			FileName = "";
 			for (int i = 0; i < 8; i++) {
 				char c = (char)reader.ReadByte();
 				if (c != ' ' && c != '\0')
-					this.FileName += c;
+					FileName += c;
 			}
-			this.CheckSum = reader.ReadUInt32();
+			CheckSum = reader.ReadUInt32();
 		}
 		/**<summary>Writes the group info.</summary>*/
 		public void Write(BinaryWriter writer) {
-			writer.Write((uint)this.Flags);
+			writer.Write((uint)Flags);
 			for (int i = 0; i < 8; i++) {
-				if (i < this.FileName.Length)
-					writer.Write((byte)this.FileName[i]);
+				if (i < FileName.Length)
+					writer.Write((byte)FileName[i]);
 				else
 					writer.Write((byte)' ');
 			}
-			writer.Write(this.CheckSum);
+			writer.Write(CheckSum);
 		}
 
 		#endregion

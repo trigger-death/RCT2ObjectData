@@ -9,70 +9,72 @@ using System.Threading.Tasks;
 
 namespace RCT2ObjectData.Objects.Types {
 	/**<summary>A small scenery object.</summary>*/
-	public class Pathing : ObjectData {
+	public class Footpath : ObjectData {
 		//========== CONSTANTS ===========
 		#region Constants
 
 		/**<summary>The size of the header for this object type.</summary>*/
 		public const uint HeaderSize = 0x0E;
-
-		/**<summary>The index of each path sprite depending on certain straights and corners connecting.</summary>*/
-		public static Dictionary<uint, int> PathSpriteIndexes = new Dictionary<uint, int>();
-
-
+		///<summary>The index of each path sprite depending on certain straights and corners connecting.
+		///<para>
+		/// Connections = [N,W,S,E,NW,SW,SE,NE]
+		///</para>
+		///</summary>
+		public static readonly Dictionary<uint, int> PathSpriteIndexes = new Dictionary<uint, int>();
+		
 		#endregion
 		//=========== MEMBERS ============
 		#region Members
 
 		/**<summary>The object header.</summary>*/
-		public PathingHeader Header;
+		public FootpathHeader Header;
 
 		#endregion
 		//========= CONSTRUCTORS =========
 		#region Constructors
 
 		/**<summary>Sets the sprites for all the paths connections in the dictionary.</summary>*/
-		static Pathing() {
+		static Footpath() {
 			// No corners connecting
 			for (int i = 0; i < 16; i++) {
-				Pathing.PathSpriteIndexes.Add((uint)i, i);
+				PathSpriteIndexes.Add((uint)i, i);
 			}
 
 			// All straights connecting
 			for (int i = 1; i < 16; i++) {
-				Pathing.PathSpriteIndexes.Add((uint)i << 4 | 0xF, 36 + (i - 1));
+				PathSpriteIndexes.Add((uint)i << 4 | 0xF, 36 + (i - 1));
 			}
 
 			// Not all straights connecting (couldn't find a pattern)
 			int index = 20;
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00010011", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00100110", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00010111", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00100111", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00110111", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("00010011", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("00100110", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("00010111", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("00100111", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("00110111", 2), index++);
 
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10001001", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00011011", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10001011", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10011011", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("10001001", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("00011011", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("10001011", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("10011011", 2), index++);
 
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01001100", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01001101", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("10001101", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("11001101", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("01001100", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("01001101", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("10001101", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("11001101", 2), index++);
 
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("00101110", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01001110", 2), index++);
-			Pathing.PathSpriteIndexes.Add(Convert.ToUInt32("01101110", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("00101110", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("01001110", 2), index++);
+			PathSpriteIndexes.Add(Convert.ToUInt32("01101110", 2), index++);
 		}
 		/**<summary>Constructs the default object.</summary>*/
-		public Pathing() : base() {
-			this.Header				= new PathingHeader();
+		public Footpath() : base() {
+			Header = new FootpathHeader();
 		}
 		/**<summary>Constructs the default object.</summary>*/
-		internal Pathing(ObjectDataHeader objectHeader, ChunkHeader chunkHeader)
+		internal Footpath(ObjectDataHeader objectHeader, ChunkHeader chunkHeader)
 			: base(objectHeader, chunkHeader) {
-				this.Header				= new PathingHeader();
+			Header = new FootpathHeader();
 		}
 
 		#endregion
@@ -138,12 +140,12 @@ namespace RCT2ObjectData.Objects.Types {
 		public void DrawRailing(PaletteImage p, Point position, DrawSettings drawSettings, uint pathConnections) {
 			int offset = (drawSettings.Queue ? 51 : 0);
 			int connection = 0;
-			if (Pathing.PathSpriteIndexes.ContainsKey(pathConnections) && !(drawSettings.Elevation > 0 && !Header.Flags.HasFlag(PathingFlags.OverlayPath))) {
-				connection = Pathing.PathSpriteIndexes[pathConnections];
+			if (PathSpriteIndexes.ContainsKey(pathConnections) && !(drawSettings.Elevation > 0 && !Header.Flags.HasFlag(FootpathFlags.OverlayPath))) {
+				connection = PathSpriteIndexes[pathConnections];
 			}
-			else if (Pathing.PathSpriteIndexes.ContainsKey(pathConnections & 0xF)) {
+			else if (PathSpriteIndexes.ContainsKey(pathConnections & 0xF)) {
 				pathConnections &= 0xF;
-				connection = Pathing.PathSpriteIndexes[pathConnections & 0xF];
+				connection = PathSpriteIndexes[pathConnections & 0xF];
 			}
 
 			if (drawSettings.Slope == -1) {
@@ -152,55 +154,65 @@ namespace RCT2ObjectData.Objects.Types {
 				else if (drawSettings.Elevation > 0)
 					offset = 73;
 
+				// Even offset additions are SW to NE direction railings
+				// Odd offset additions are NW to SE direction railings
+				// Offset additions 0-1 are no-ending railings
+				// Offset additions 2-3 are South-ending railings
+				// Offset additions 4-5 are North-ending railings
+				// Outside corners use ending railings at the corner
 				if (drawSettings.Queue || drawSettings.Elevation > 0) {
-					if (CheckConnections(pathConnections, "####00#1")) {
-						graphicsData.paletteImages[offset + 3].DrawWithOffset(p, Point.Add(position, new Size(4, 2)), drawSettings.Darkness, false);
-					}
-					if (CheckConnections(pathConnections, "#####001")) {
-						graphicsData.paletteImages[offset + 3].DrawWithOffset(p, Point.Add(position, new Size(32 - 4, 16 - 2)), drawSettings.Darkness, false);
-					}
-					if (CheckConnections(pathConnections, "####0#10")) {
+					// Draw ending railings
+					if (CheckConnections(pathConnections, "####0#10")) { // NE N-ending
 						graphicsData.paletteImages[offset + 4].DrawWithOffset(p, Point.Add(position, new Size(-4, 2)), drawSettings.Darkness, false);
 					}
-					if (CheckConnections(pathConnections, "####001#")) {
-						graphicsData.paletteImages[offset + 4].DrawWithOffset(p, Point.Add(position, new Size(-32 + 4, 16 - 2)), drawSettings.Darkness, false);
-					}
-					if (CheckConnections(pathConnections, "#####100")) {
-						graphicsData.paletteImages[offset + 5].DrawWithOffset(p, Point.Add(position, new Size(32 - 4, 16 - 2)), drawSettings.Darkness, false);
-					}
-					if (CheckConnections(pathConnections, "####01#0")) {
-						graphicsData.paletteImages[offset + 5].DrawWithOffset(p, Point.Add(position, new Size(4, 2)), drawSettings.Darkness, false);
-					}
-					if (CheckConnections(pathConnections, "####100#")) {
-						graphicsData.paletteImages[offset + 2].DrawWithOffset(p, Point.Add(position, new Size(-32 + 4, 16 - 2)), drawSettings.Darkness, false);
-					}
-					if (CheckConnections(pathConnections, "####1#00")) {
+					if (CheckConnections(pathConnections, "####1#00")) { // NE S-ending
 						graphicsData.paletteImages[offset + 2].DrawWithOffset(p, Point.Add(position, new Size(-4, 2)), drawSettings.Darkness, false);
 					}
+					if (CheckConnections(pathConnections, "####01#0")) { // NW N-ending
+						graphicsData.paletteImages[offset + 5].DrawWithOffset(p, Point.Add(position, new Size(4, 2)), drawSettings.Darkness, false);
+					}
+					if (CheckConnections(pathConnections, "####00#1")) { // NW S-ending
+						graphicsData.paletteImages[offset + 3].DrawWithOffset(p, Point.Add(position, new Size(4, 2)), drawSettings.Darkness, false);
+					}
 
-					if (CheckConnections(pathConnections, "####01#1")) {
+					if (CheckConnections(pathConnections, "#####100")) { // SE N-ending
+						graphicsData.paletteImages[offset + 5].DrawWithOffset(p, Point.Add(position, new Size(32 - 4, 16 - 2)), drawSettings.Darkness, false);
+					}
+					if (CheckConnections(pathConnections, "#####001")) { // SE S-ending
+						graphicsData.paletteImages[offset + 3].DrawWithOffset(p, Point.Add(position, new Size(32 - 4, 16 - 2)), drawSettings.Darkness, false);
+					}
+					if (CheckConnections(pathConnections, "####001#")) { // SW N-ending
+						graphicsData.paletteImages[offset + 4].DrawWithOffset(p, Point.Add(position, new Size(-32 + 4, 16 - 2)), drawSettings.Darkness, false);
+					}
+					if (CheckConnections(pathConnections, "####100#")) { // SW S-ending
+						graphicsData.paletteImages[offset + 2].DrawWithOffset(p, Point.Add(position, new Size(-32 + 4, 16 - 2)), drawSettings.Darkness, false);
+					}
+
+					// Draw no-ending railings
+					if (CheckConnections(pathConnections, "####01#1")) { // NW
 						graphicsData.paletteImages[offset + 1].DrawWithOffset(p, Point.Add(position, new Size(4, 2)), drawSettings.Darkness, false);
 					}
-					if (CheckConnections(pathConnections, "#####101")) {
+					if (CheckConnections(pathConnections, "#####101")) { // SE
 						graphicsData.paletteImages[offset + 1].DrawWithOffset(p, Point.Add(position, new Size(32 - 4, 16 - 2)), drawSettings.Darkness, false);
 					}
-					if (CheckConnections(pathConnections, "####1#10")) {
+					if (CheckConnections(pathConnections, "####1#10")) { // NE
 						graphicsData.paletteImages[offset + 0].DrawWithOffset(p, Point.Add(position, new Size(-4, 2)), drawSettings.Darkness, false);
 					}
-					if (CheckConnections(pathConnections, "####101#")) {
+					if (CheckConnections(pathConnections, "####101#")) { // SW
 						graphicsData.paletteImages[offset + 0].DrawWithOffset(p, Point.Add(position, new Size(-32 + 4, 16 - 2)), drawSettings.Darkness, false);
 					}
 
-					if (CheckConnections(pathConnections, "###0##11")) {
+					// Draw inside corner railings
+					if (CheckConnections(pathConnections, "###0##11")) { // E
 						graphicsData.paletteImages[offset + 11].DrawWithOffset(p, position, drawSettings.Darkness, false);
 					}
-					if (CheckConnections(pathConnections, "##0##11#")) {
+					if (CheckConnections(pathConnections, "##0##11#")) { // S
 						graphicsData.paletteImages[offset + 12].DrawWithOffset(p, position, drawSettings.Darkness, false);
 					}
-					if (CheckConnections(pathConnections, "#0##11##")) {
+					if (CheckConnections(pathConnections, "#0##11##")) { // W
 						graphicsData.paletteImages[offset + 13].DrawWithOffset(p, position, drawSettings.Darkness, false);
 					}
-					if (CheckConnections(pathConnections, "0###1##1")) {
+					if (CheckConnections(pathConnections, "0###1##1")) { // N
 						graphicsData.paletteImages[offset + 10].DrawWithOffset(p, position, drawSettings.Darkness, false);
 					}
 				}
@@ -243,7 +255,7 @@ namespace RCT2ObjectData.Objects.Types {
 				drawSettings.Elevation -= 8;
 				position.Y += 16;
 			}
-			if (Header.Flags.HasFlag(PathingFlags.PoleBase)) {
+			if (Header.Flags.HasFlag(FootpathFlags.PoleBase)) {
 				position.Y -= 6;
 				graphicsData.paletteImages[offset + 9].DrawWithOffset(p,
 					position, drawSettings.Darkness, false);
@@ -293,10 +305,10 @@ namespace RCT2ObjectData.Objects.Types {
 				return;
 
 			int connection = 0;
-			if (Pathing.PathSpriteIndexes.ContainsKey(pathConnections & 0xF)) {
-				connection = Pathing.PathSpriteIndexes[pathConnections & 0xF];
+			if (PathSpriteIndexes.ContainsKey(pathConnections & 0xF)) {
+				connection = PathSpriteIndexes[pathConnections & 0xF];
 			}
-			if (Header.Flags.HasFlag(PathingFlags.PoleSupports)) {
+			if (Header.Flags.HasFlag(FootpathFlags.PoleSupports)) {
 				if (CheckConnections(pathConnections, "#######0"))
 					DrawPoleSupport(p, Point.Add(position, new Size(12, -6)), drawSettings);
 				if (CheckConnections(pathConnections, "####0###"))
@@ -317,12 +329,12 @@ namespace RCT2ObjectData.Objects.Types {
 
 			int offset = 109;
 			int connection = 0;
-			if (Pathing.PathSpriteIndexes.ContainsKey(pathConnections & 0xF)) {
-				connection = Pathing.PathSpriteIndexes[pathConnections & 0xF];
+			if (PathSpriteIndexes.ContainsKey(pathConnections & 0xF)) {
+				connection = PathSpriteIndexes[pathConnections & 0xF];
 			}
 
 			if (drawSettings.Slope == -1) {
-				if (Header.Flags.HasFlag(PathingFlags.PoleSupports)) {
+				if (Header.Flags.HasFlag(FootpathFlags.PoleSupports)) {
 					graphicsData.paletteImages[offset + connection].DrawWithOffset(p, position, drawSettings.Darkness, false);
 				}
 				else {
@@ -331,7 +343,7 @@ namespace RCT2ObjectData.Objects.Types {
 				}
 			}
 			else {
-				if (Header.Flags.HasFlag(PathingFlags.PoleSupports)) {
+				if (Header.Flags.HasFlag(FootpathFlags.PoleSupports)) {
 					graphicsData.paletteImages[offset + 16 + (drawSettings.Slope + 3) % 4].DrawWithOffset(p, position, drawSettings.Darkness, false);
 				}
 				else {
@@ -342,17 +354,17 @@ namespace RCT2ObjectData.Objects.Types {
 		}
 		/**<summary>Draws the path base.</summary>*/
 		public void DrawPath(PaletteImage p, Point position, DrawSettings drawSettings, uint pathConnections) {
-			if (drawSettings.Elevation > 0 && !Header.Flags.HasFlag(PathingFlags.OverlayPath))
+			if (drawSettings.Elevation > 0 && !Header.Flags.HasFlag(FootpathFlags.OverlayPath))
 				return;
 
 			int offset = (drawSettings.Queue ? 51 : 0);
 
 			if (drawSettings.Slope == -1) {
 				int connection = 0;
-				if (Pathing.PathSpriteIndexes.ContainsKey(pathConnections))
-					connection = Pathing.PathSpriteIndexes[pathConnections];
-				else if (Pathing.PathSpriteIndexes.ContainsKey(pathConnections & 0xF))
-					connection = Pathing.PathSpriteIndexes[pathConnections & 0xF];
+				if (PathSpriteIndexes.ContainsKey(pathConnections))
+					connection = PathSpriteIndexes[pathConnections];
+				else if (PathSpriteIndexes.ContainsKey(pathConnections & 0xF))
+					connection = PathSpriteIndexes[pathConnections & 0xF];
 
 				graphicsData.paletteImages[offset + connection].DrawWithOffset(p, position, drawSettings.Darkness, false);
 			}
@@ -441,8 +453,16 @@ namespace RCT2ObjectData.Objects.Types {
 			return true;
 		}
 
-		/**<summary>Checks if a connection condition is true.</summary>*/
-		public bool CheckConnections(uint pathConnections, string condition) {
+		#endregion
+		//=========== HELPERS ============
+		#region Helpers
+
+		///<summary>Checks if a connection condition is true.
+		///<para>
+		/// Connections = [N,W,S,E,NW,SW,SE,NE]
+		///</para>
+		///</summary>
+		private static bool CheckConnections(uint pathConnections, string condition) {
 			for (int i = 0; i < 8; i++) {
 				bool conec = (pathConnections & (1 << i)) != 0;
 				char cond = condition[7 - i];
@@ -452,8 +472,12 @@ namespace RCT2ObjectData.Objects.Types {
 
 			return true;
 		}
-		/**<summary>Gets the position offset of the connection.</summary>*/
-		public Point GetConnectionPoint(Point position, int digit, int slope = -1) {
+		///<summary>Gets the position offset of the connection.
+		///<para>
+		/// Connections = [N,W,S,E,NW,SW,SE,NE]
+		///</para>
+		///</summary>
+		private static Point GetConnectionPoint(Point position, int digit, int slope = -1) {
 			Point offset = Point.Empty;
 			int x = 32;
 			int y = 16;
@@ -474,8 +498,12 @@ namespace RCT2ObjectData.Objects.Types {
 				offset.Y -= 16;
 			return offset;
 		}
-		/**<summary>Translates the connections.</summary>*/
-		public uint ConvertConnections(bool[,] connections, int digit) {
+		///<summary>Translates the connections.
+		///<para>
+		/// Connections = [N,W,S,E,NW,SW,SE,NE]
+		///</para>
+		///</summary>
+		private static uint ConvertConnections(bool[,] connections, int digit) {
 			uint index = 0x00000000;
 			Point offset = Point.Empty;
 			switch (digit) {
@@ -513,14 +541,14 @@ namespace RCT2ObjectData.Objects.Types {
 		#endregion
 	}
 	/**<summary>The header used for small scenery objects.</summary>*/
-	public class PathingHeader : ObjectTypeHeader {
+	public class FootpathHeader : ObjectTypeHeader {
 		//=========== MEMBERS ============
 		#region Members
 	
 		/**<summary>Ten bytes of data that are always zero in dat files.</summary>*/
 		public byte[] Reserved0;
 		/**<summary>The flags used by the object.</summary>*/
-		public PathingFlags Flags;
+		public FootpathFlags Flags;
 		/**<summary>Always zero in dat files.</summary>*/
 		public ushort Reserved1;
 
@@ -529,10 +557,10 @@ namespace RCT2ObjectData.Objects.Types {
 		#region Constructors
 
 		/**<summary>Constructs the default object header.</summary>*/
-		public PathingHeader() {
-			this.Reserved0	= new byte[10];
-			this.Flags		= PathingFlags.None;
-			this.Reserved1	= 0;
+		public FootpathHeader() {
+			Reserved0	= new byte[10];
+			Flags		= FootpathFlags.None;
+			Reserved1	= 0;
 		}
 
 		#endregion
@@ -541,7 +569,7 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Gets the size of the object type header.</summary>*/
 		internal override uint HeaderSize {
-			get { return Pathing.HeaderSize; }
+			get { return Footpath.HeaderSize; }
 		}
 		/**<summary>Gets the basic subtype of the object.</summary>*/
 		internal override ObjectSubtypes ObjectSubtype {
@@ -556,22 +584,22 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Reads the object header.</summary>*/
 		internal override void Read(BinaryReader reader) {
-			reader.Read(this.Reserved0, 0, this.Reserved0.Length);
-			this.Flags		= (PathingFlags)reader.ReadUInt16();
-			this.Reserved1	= reader.ReadUInt16();
+			reader.Read(Reserved0, 0, Reserved0.Length);
+			Flags		= (FootpathFlags)reader.ReadUInt16();
+			Reserved1	= reader.ReadUInt16();
 		}
 		/**<summary>Writes the object header.</summary>*/
 		internal override void Write(BinaryWriter writer) {
-			writer.Write(this.Reserved0);
-			writer.Write((ushort)this.Flags);
-			writer.Write(this.Reserved1);
+			writer.Write(Reserved0);
+			writer.Write((ushort)Flags);
+			writer.Write(Reserved1);
 		}
 
 		#endregion
 	}
-	/**<summary>All flags usable with pathing objects.</summary>*/
+	/**<summary>All flags usable with footpath objects.</summary>*/
 	[Flags]
-	public enum PathingFlags : ushort {
+	public enum FootpathFlags : ushort {
 		/**<summary>No flags are set.</summary>*/
 		None = 0,
 		/**<summary>True if pole supports are used, otherwise they are scaffold supports.</summary>*/

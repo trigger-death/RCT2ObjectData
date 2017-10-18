@@ -32,13 +32,13 @@ namespace RCT2ObjectData.Objects {
 
 		/**<summary>Constructs the default image entry.</summary>*/
 		public ImageEntry() {
-			this.StartAddress	= 0;
-			this.Width			= 0;
-			this.Height			= 0;
-			this.XOffset		= 0;
-			this.YOffset		= 0;
-			this.Flags			= ImageFlags.None;
-			this.Unused			= 0;
+			StartAddress	= 0;
+			Width			= 0;
+			Height			= 0;
+			XOffset			= 0;
+			YOffset			= 0;
+			Flags			= ImageFlags.None;
+			Unused			= 0;
 		}
 
 		#endregion
@@ -47,23 +47,23 @@ namespace RCT2ObjectData.Objects {
 
 		/**<summary>Reads the image entry.</summary>*/
 		public void Read(BinaryReader reader) {
-			this.StartAddress	= reader.ReadUInt32();
-			this.Width			= reader.ReadInt16();
-			this.Height			= reader.ReadInt16();
-			this.XOffset		= reader.ReadInt16();
-			this.YOffset		= reader.ReadInt16();
-			this.Flags			= (ImageFlags)reader.ReadUInt16();
-			this.Unused			= reader.ReadUInt16();
+			StartAddress	= reader.ReadUInt32();
+			Width			= reader.ReadInt16();
+			Height			= reader.ReadInt16();
+			XOffset			= reader.ReadInt16();
+			YOffset			= reader.ReadInt16();
+			Flags			= (ImageFlags)reader.ReadUInt16();
+			Unused			= reader.ReadUInt16();
 		}
 		/**<summary>Writes the image entry.</summary>*/
 		public void Write(BinaryWriter writer) {
-			writer.Write(this.StartAddress);
-			writer.Write(this.Width);
-			writer.Write(this.Height);
-			writer.Write(this.XOffset);
-			writer.Write(this.YOffset);
-			writer.Write((ushort)this.Flags);
-			writer.Write(this.Unused);
+			writer.Write(StartAddress);
+			writer.Write(Width);
+			writer.Write(Height);
+			writer.Write(XOffset);
+			writer.Write(YOffset);
+			writer.Write((ushort)Flags);
+			writer.Write(Unused);
 		}
 
 		#endregion
@@ -84,8 +84,8 @@ namespace RCT2ObjectData.Objects {
 
 		/**<summary>Constructs the default image directory.</summary>*/
 		public ImageDirectory() {
-			this.ScanLineLength	= 0;
-			this.entries		= new List<ImageEntry>();
+			ScanLineLength	= 0;
+			entries			= new List<ImageEntry>();
 		}
 
 		#endregion
@@ -94,7 +94,7 @@ namespace RCT2ObjectData.Objects {
 
 		/**<summary>Gets the number of images to read.</summary>*/
 		public int NumEntries {
-			get { return this.entries.Count; }
+			get { return entries.Count; }
 		}
 
 		#endregion
@@ -104,34 +104,36 @@ namespace RCT2ObjectData.Objects {
 		/**<summary>Reads the image directory.</summary>*/
 		public void Read(BinaryReader reader, bool quickLoad = false) {
 			int count = reader.ReadInt32();
-			this.ScanLineLength = reader.ReadInt32();
+			ScanLineLength = reader.ReadInt32();
 
 			for (int i = 0; i < count; i++) {
 				ImageEntry entry = new ImageEntry();
 				entry.Read(reader);
 				if (!quickLoad || i < 168)
-					this.entries.Add(entry);
+					entries.Add(entry);
 			}
 		}
-		/**<summary>Reads the image directory.</summary>*/
+		/**<summary>Reads the RCT1 image directory.</summary>*/
 		public void ReadCSG1(BinaryReader reader) {
-			//int count = reader.ReadInt32();
-			//this.ScanLineLength = reader.ReadInt32();
-
-			//for (int i = 0; i < count; i++) {
 			while (reader.BaseStream.Position < reader.BaseStream.Length) {
 				ImageEntry entry = new ImageEntry();
 				entry.Read(reader);
-				this.entries.Add(entry);
+				entries.Add(entry);
 			}
 		}
 		/**<summary>Writes the image directory.</summary>*/
 		public void Write(BinaryWriter writer) {
-			writer.Write(this.entries.Count);
-			writer.Write(this.ScanLineLength);
-
-			for (int i = 0; i < this.entries.Count; i++) {
-				this.entries[i].Write(writer);
+			writer.Write(entries.Count);
+			writer.Write(ScanLineLength);
+			
+			foreach (ImageEntry entry in entries) {
+				entry.Write(writer);
+			}
+		}
+		/**<summary>Writes the RCT1 image directory.</summary>*/
+		public void WriteCSG1(BinaryWriter writer) {
+			foreach (ImageEntry entry in entries) {
+				entry.Write(writer);
 			}
 		}
 

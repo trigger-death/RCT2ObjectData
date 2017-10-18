@@ -33,16 +33,16 @@ namespace RCT2ObjectData.Drawing {
 
 		/**<summary>Loads the terrain resources.</summary>*/
 		static Terrain() {
-			GraphicsData graphicsData = GraphicsData.FromBuffer(Resources.Terrain);
+			GraphicsData graphicsData = GraphicsData.FromBytes(Resources.Terrain);
 
 			LandTiles = new PaletteImage[5];
 			graphicsData.paletteImages.CopyTo(LandTiles);
 		}
 		/**<summary>Constructs the default terrain.</summary>*/
 		public Terrain() {
-			this.Origin = Point.Empty;
-			this.Size = new Size(1, 1);
-			this.Slope = -1;
+			Origin = Point.Empty;
+			Size = new Size(1, 1);
+			Slope = -1;
 		}
 
 		#endregion
@@ -65,8 +65,6 @@ namespace RCT2ObjectData.Drawing {
 					else if (Slope == -1 ||
 						(Slope % 2 == 0 && (x1 < Origin.X - 0 || x1 > Origin.X + 2)) ||
 						(Slope % 2 == 1 && (y1 < Origin.Y - 1 || y1 > Origin.Y + 1))) {
-						/*(Slope % 2 == 0 && (x1 < Origin.X - 0 || x1 > Origin.X + 2)) ||
-						(Slope % 2 == 1 && (y1 < Origin.Y - 1 || y1 > Origin.Y + 1))) {*/
 						LandTiles[0].DrawWithOffset(p, point.X + ((x1 - y1) * 32), point.Y + ((x1 + y1) * 16),
 							darkness, false, RemapColors.None, RemapColors.None, RemapColors.None
 						);
@@ -96,39 +94,7 @@ namespace RCT2ObjectData.Drawing {
 		}
 		/**<summary>Draws the terrain to the specified palette image.</summary>*/
 		public void Draw(PaletteImage p, int x, int y, int darkness) {
-			x -= 32 + ((Origin.X - Origin.Y) * 32);
-			y -= 15 + ((Origin.X + Origin.Y) * 16);
-			for (int x1 = 0; x1 < Size.Width; x1++) {
-				for (int y1 = 0; y1 < Size.Height; y1++) {
-					if (Slope == -1 ||
-						(Slope % 2 == 0 && x1 < Origin.X - 1 && x1 > Origin.X + 1) ||
-						(Slope % 2 == 1 && y1 < Origin.Y - 1 && y1 > Origin.Y + 1)) {
-						LandTiles[0].DrawWithOffset(p, x + ((x1 - y1) * 32), y + ((x1 + y1) * 16),
-							darkness, false, RemapColors.None, RemapColors.None, RemapColors.None
-						);
-					}
-					else if (Slope == 0 && x1 == Origin.X + 1) {
-						LandTiles[1].DrawWithOffset(p, x + ((x1 - y1) * 32), y + ((x1 + y1) * 16),
-							darkness, false, RemapColors.None, RemapColors.None, RemapColors.None
-						);
-					}
-					else if (Slope == 1 && y1 == Origin.Y + 1) {
-						LandTiles[2].DrawWithOffset(p, x + ((x1 - y1) * 32), y + ((x1 + y1) * 16),
-							darkness, false, RemapColors.None, RemapColors.None, RemapColors.None
-						);
-					}
-					else if (Slope == 2 && x1 == Origin.X - 1) {
-						LandTiles[3].DrawWithOffset(p, x + ((x1 - y1) * 32), y + ((x1 + y1) * 16),
-							darkness, false, RemapColors.None, RemapColors.None, RemapColors.None
-						);
-					}
-					else if (Slope == 3 && y1 == Origin.Y - 1) {
-						LandTiles[4].DrawWithOffset(p, x + ((x1 - y1) * 32), y + ((x1 + y1) * 16),
-							darkness, false, RemapColors.None, RemapColors.None, RemapColors.None
-						);
-					}
-				}
-			}
+			Draw(p, new Point(x, y), darkness);
 		}
 
 		#endregion

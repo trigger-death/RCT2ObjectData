@@ -12,7 +12,7 @@ namespace RCT2ObjectData.Objects.Types.AttractionInfo {
 	    #region Members
 
 	    /**<summary>The image entry info for each frames.</summary>*/
-	    public ImageEntry[,] Infos;
+	    public ImageEntry[,] Entries;
 	    /**<summary>The image for each frames.</summary>*/
 	    public PaletteImage[,] Images;
 
@@ -22,18 +22,18 @@ namespace RCT2ObjectData.Objects.Types.AttractionInfo {
 
 	    /**<summary>Constructs a car frame with the specified frames.</summary>*/
 	    public CarFrame(int swingingFrames, int animationFrames) {
-		    this.Infos		= new ImageEntry[swingingFrames, animationFrames];
-		    this.Images		= new PaletteImage[swingingFrames, animationFrames];
+		    Entries		= new ImageEntry[swingingFrames, animationFrames];
+		    Images		= new PaletteImage[swingingFrames, animationFrames];
 	    }
 
-	    #endregion
-	    //========= CONSTRUCTORS =========
-	    #region Constructors
+		#endregion
+		//========== PROPERTIES ==========
+		#region Properties
 
-	    /**<summary>Gets or sets the single image entry.</summary>*/
-	    public ImageEntry Info {
-		    get { return Infos[0, 0]; }
-		    set { Infos[0, 0] = value; }
+		/**<summary>Gets or sets the single image entry.</summary>*/
+		public ImageEntry Entry {
+		    get { return Entries[0, 0]; }
+		    set { Entries[0, 0] = value; }
 	    }
 	    /**<summary>Gets or sets the single image.</summary>*/
 	    public PaletteImage Image {

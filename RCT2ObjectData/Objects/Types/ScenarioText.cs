@@ -29,12 +29,12 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object.</summary>*/
 		public ScenarioText() : base() {
-			this.Header = new ScenarioTextHeader();
+			Header = new ScenarioTextHeader();
 		}
 		/**<summary>Constructs the default object.</summary>*/
 		internal ScenarioText(ObjectDataHeader objectHeader, ChunkHeader chunkHeader)
 			: base(objectHeader, chunkHeader) {
-			this.Header = new ScenarioTextHeader();
+			Header = new ScenarioTextHeader();
 		}
 
 		#endregion
@@ -133,9 +133,9 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object header.</summary>*/
 		public ScenarioTextHeader() {
-			this.Reserved0   = new byte[0x6];
-			this.IsSixFlags  = 0;
-			this.Reserved1   = 0;
+			Reserved0	= new byte[0x6];
+			IsSixFlags	= 0;
+			Reserved1	= 0;
 		}
 
 		#endregion
@@ -159,15 +159,15 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Reads the object header.</summary>*/
 		internal override void Read(BinaryReader reader) {
-			reader.Read(this.Reserved0, 0, this.Reserved0.Length);
-			this.IsSixFlags = reader.ReadByte();
-			this.Reserved1 = reader.ReadByte();
+			reader.Read(Reserved0, 0, Reserved0.Length);
+			IsSixFlags = reader.ReadByte();
+			Reserved1 = reader.ReadByte();
 		}
 		/**<summary>Writes the object header.</summary>*/
 		internal override void Write(BinaryWriter writer) {
-			writer.Write(this.Reserved0);
-			writer.Write(this.IsSixFlags);
-			writer.Write(this.Reserved1);
+			writer.Write(Reserved0);
+			writer.Write(IsSixFlags);
+			writer.Write(Reserved1);
 		}
 
 		#endregion

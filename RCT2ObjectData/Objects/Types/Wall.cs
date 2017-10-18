@@ -29,12 +29,12 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object.</summary>*/
 		public Wall() : base() {
-			this.Header = new WallHeader();
+			Header = new WallHeader();
 		}
 		/**<summary>Constructs the default object.</summary>*/
 		internal Wall(ObjectDataHeader objectHeader, ChunkHeader chunkHeader)
 			: base(objectHeader, chunkHeader) {
-			this.Header = new WallHeader();
+			Header = new WallHeader();
 		}
 
 		#endregion
@@ -233,15 +233,15 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object header.</summary>*/
 		public WallHeader() {
-			this.Reserved0	= 0;
-			this.Reserved1	= 0;
-			this.Cursor		= 0;
-			this.Flags		= WallFlags.None;
-			this.Clearance	= 32;
-			this.Effects	= 0;
-			this.BuildCost	= 1;
-			this.Reserved2	= 0;
-			this.Scrolling	= 0xFF;
+			Reserved0	= 0;
+			Reserved1	= 0;
+			Cursor		= 0;
+			Flags		= WallFlags.None;
+			Clearance	= 32;
+			Effects		= 0;
+			BuildCost	= 1;
+			Reserved2	= 0;
+			Scrolling	= 0xFF;
 		}
 
 		#endregion
@@ -273,27 +273,27 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Reads the object header.</summary>*/
 		internal override void Read(BinaryReader reader) {
-			this.Reserved0	= reader.ReadUInt16();
-			this.Reserved1	= reader.ReadUInt32();
-			this.Cursor		= reader.ReadByte();
-			this.Flags		= (WallFlags)reader.ReadByte();
-			this.Clearance	= reader.ReadByte();
-			this.Effects	= reader.ReadByte();
-			this.BuildCost	= reader.ReadUInt16();
-			this.Reserved2	= reader.ReadByte();
-			this.Scrolling	= reader.ReadByte();
+			Reserved0	= reader.ReadUInt16();
+			Reserved1	= reader.ReadUInt32();
+			Cursor		= reader.ReadByte();
+			Flags		= (WallFlags)reader.ReadByte();
+			Clearance	= reader.ReadByte();
+			Effects		= reader.ReadByte();
+			BuildCost	= reader.ReadUInt16();
+			Reserved2	= reader.ReadByte();
+			Scrolling	= reader.ReadByte();
 		}
 		/**<summary>Writes the object header.</summary>*/
 		internal override void Write(BinaryWriter writer) {
-			writer.Write(this.Reserved0);
-			writer.Write(this.Reserved1);
-			writer.Write(this.Cursor);
-			writer.Write((byte)this.Flags);
-			writer.Write(this.Clearance);
-			writer.Write(this.Effects);
-			writer.Write(this.BuildCost);
-			writer.Write(this.Reserved2);
-			writer.Write(this.Scrolling);
+			writer.Write(Reserved0);
+			writer.Write(Reserved1);
+			writer.Write(Cursor);
+			writer.Write((byte)Flags);
+			writer.Write(Clearance);
+			writer.Write(Effects);
+			writer.Write(BuildCost);
+			writer.Write(Reserved2);
+			writer.Write(Scrolling);
 		}
 
 		#endregion

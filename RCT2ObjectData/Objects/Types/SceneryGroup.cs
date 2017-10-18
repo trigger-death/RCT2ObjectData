@@ -24,7 +24,7 @@ namespace RCT2ObjectData.Objects.Types {
 		public SceneryGroupHeader Header;
 
 		/**<summary>The contents of the scenery group.</summary>*/
-		public List<ObjectEntry> Items;
+		public List<ObjectDataHeader> Items;
 
 		#endregion
 		//========= CONSTRUCTORS =========
@@ -32,14 +32,14 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object.</summary>*/
 		public SceneryGroup() : base() {
-			this.Header	= new SceneryGroupHeader();
-			this.Items	= new List<ObjectEntry>();
+			Header	= new SceneryGroupHeader();
+			Items	= new List<ObjectDataHeader>();
 		}
 		/**<summary>Constructs the default object.</summary>*/
 		internal SceneryGroup(ObjectDataHeader objectHeader, ChunkHeader chunkHeader)
 			: base(objectHeader, chunkHeader) {
-			this.Header	= new SceneryGroupHeader();
-			this.Items	= new List<ObjectEntry>();
+			Header	= new SceneryGroupHeader();
+			Items	= new List<ObjectDataHeader>();
 		}
 
 		#endregion
@@ -93,92 +93,87 @@ namespace RCT2ObjectData.Objects.Types {
 		#region Scenery
 
 		/**<summary>Returns true if the object is a scenery object.</summary>*/
-		public bool IsSceneryObject(uint flags) {
+		public static bool IsSceneryObject(uint flags) {
 			ObjectTypes type = (ObjectTypes)(flags % 0xF);
 			return type == ObjectTypes.SmallScenery || type == ObjectTypes.LargeScenery || type == ObjectTypes.Wall || type == ObjectTypes.PathBanner || type == ObjectTypes.PathAddition;
 		}
 		/**<summary>Gets the scenery group item at the specified index.</summary>*/
-		public ObjectEntry Get(int index) {
-			return this.Items[index];
+		public ObjectDataHeader Get(int index) {
+			return Items[index];
 		}
 		/**<summary>Sets the specified scenery group item at the specified index.</summary>*/
 		public bool Set(int index, uint flags, string fileName, uint checksum) {
 			if (IsSceneryObject(flags)) {
-				this.Items[index] = new ObjectEntry(flags, fileName, checksum);
+				Items[index] = new ObjectDataHeader(flags, fileName, checksum);
 				return true;
 			}
 			return false;
 		}
 		/**<summary>Sets the specified scenery group item at the specified index.</summary>*/
-		public bool Set(int index, ObjectEntry item) {
-			return Set(index, item.Flags, item.FileName, item.CheckSum);
+		public bool Set(int index, ObjectDataHeader item) {
+			return Set(index, item.Flags, item.FileName, item.Checksum);
 		}
 		/**<summary>Sets the specified scenery group item at the specified index.</summary>*/
 		public bool Set(int index, ObjectData obj) {
-			return Set(index, obj.ObjectHeader.Flags, obj.ObjectHeader.FileName, obj.ObjectHeader.CheckSum);
+			return Set(index, obj.ObjectHeader.Flags, obj.ObjectHeader.FileName, obj.ObjectHeader.Checksum);
 		}
 		/**<summary>Sets the specified scenery group item at the specified index.</summary>*/
 		public bool Set(int index, ObjectDataInfo objInfo) {
-			return Set(index, objInfo.Flags, objInfo.FileName, objInfo.CheckSum);
-		}
-		/**<summary>Sets the specified scenery group item at the specified index.</summary>*/
-		public bool Set(int index, string path) {
-			ObjectDataHeader obj = ObjectDataHeader.FromFile(path);
-			return Set(index, obj.Flags, obj.FileName, obj.CheckSum);
+			return Set(index, objInfo.Flags, objInfo.FileName, objInfo.Checksum);
 		}
 		/**<summary>Adds the specified scenery object to the scenery group.</summary>*/
 		public bool Add(uint flags, string fileName, uint checksum) {
 			if (IsSceneryObject(flags)) {
-				this.Items.Add(new ObjectEntry(flags, fileName, checksum));
+				Items.Add(new ObjectDataHeader(flags, fileName, checksum));
 				return true;
 			}
 			return false;
 		}
 		/**<summary>Adds the specified scenery object to the scenery group.</summary>*/
-		public bool Add(ObjectEntry item) {
-			return Add(item.Flags, item.FileName, item.CheckSum);
+		public bool Add(ObjectDataHeader item) {
+			return Add(item.Flags, item.FileName, item.Checksum);
 		}
 		/**<summary>Adds the specified scenery object to the scenery group.</summary>*/
 		public bool Add(ObjectData obj) {
-			return Add(obj.ObjectHeader.Flags, obj.ObjectHeader.FileName, obj.ObjectHeader.CheckSum);
+			return Add(obj.ObjectHeader.Flags, obj.ObjectHeader.FileName, obj.ObjectHeader.Checksum);
 		}
 		/**<summary>Adds the specified scenery object to the scenery group.</summary>*/
 		public bool Add(ObjectDataInfo objInfo) {
-			return Add(objInfo.Flags, objInfo.FileName, objInfo.CheckSum);
+			return Add(objInfo.Flags, objInfo.FileName, objInfo.Checksum);
 		}
 		/**<summary>Adds the specified scenery object to the scenery group.</summary>*/
 		public bool Add(string path) {
 			ObjectDataHeader obj = ObjectDataHeader.FromFile(path);
-			return Add(obj.Flags, obj.FileName, obj.CheckSum);
+			return Add(obj.Flags, obj.FileName, obj.Checksum);
 		}
 		/**<summary>Inserts the specified scenery object to the scenery group at the specified index.</summary>*/
 		public bool Insert(int index, uint flags, string fileName, uint checksum) {
 			if (IsSceneryObject(flags)) {
-				this.Items.Insert(index, new ObjectEntry(flags, fileName, checksum));
+				Items.Insert(index, new ObjectDataHeader(flags, fileName, checksum));
 				return true;
 			}
 			return false;
 		}
 		/**<summary>Inserts the specified scenery object to the scenery group at the specified index.</summary>*/
-		public bool Insert(int index, ObjectEntry item) {
-			return Insert(index, item.Flags, item.FileName, item.CheckSum);
+		public bool Insert(int index, ObjectDataHeader item) {
+			return Insert(index, item.Flags, item.FileName, item.Checksum);
 		}
 		/**<summary>Inserts the specified scenery object to the scenery group at the specified index.</summary>*/
 		public bool Insert(int index, ObjectData obj) {
-			return Insert(index, obj.ObjectHeader.Flags, obj.ObjectHeader.FileName, obj.ObjectHeader.CheckSum);
+			return Insert(index, obj.ObjectHeader.Flags, obj.ObjectHeader.FileName, obj.ObjectHeader.Checksum);
 		}
 		/**<summary>Inserts the specified scenery object to the scenery group at the specified index.</summary>*/
 		public bool Insert(int index, ObjectDataInfo objInfo) {
-			return Insert(index, objInfo.Flags, objInfo.FileName, objInfo.CheckSum);
+			return Insert(index, objInfo.Flags, objInfo.FileName, objInfo.Checksum);
 		}
 		/**<summary>Inserts the specified scenery object to the scenery group at the specified index.</summary>*/
 		public bool Insert(int index, string path) {
 			ObjectDataHeader obj = ObjectDataHeader.FromFile(path);
-			return Insert(index, obj.Flags, obj.FileName, obj.CheckSum);
+			return Insert(index, obj.Flags, obj.FileName, obj.Checksum);
 		}
 		/**<summary>Removes the scenery group item at the specified index.</summary>*/
 		public void RemoveAt(int index) {
-			this.Items.RemoveAt(index);
+			Items.RemoveAt(index);
 		}
 
 		#endregion
@@ -201,18 +196,18 @@ namespace RCT2ObjectData.Objects.Types {
 			while (b != 0xFF)
 			{
 				reader.BaseStream.Position--;
-				ObjectEntry entry = new ObjectEntry();
+				ObjectDataHeader entry = new ObjectDataHeader();
 				entry.Read(reader);
-				this.Items.Add(entry);
+				Items.Add(entry);
 				b = reader.ReadByte();
 			}
 		}
 		/**<summary>Writes the object data optional.</summary>*/
 		protected override void WriteOptional(BinaryWriter writer) {
 			// Write Contents
-			for (int i = 0; i < this.Items.Count; i++)
+			for (int i = 0; i < Items.Count; i++)
 			{
-				this.Items[i].Write(writer);
+				Items[i].Write(writer);
 			}
 			writer.Write((byte)0xFF);
 		}
@@ -267,12 +262,12 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object header.</summary>*/
 		public SceneryGroupHeader() {
-			this.Reserved0		= new byte[0x108];
-			this.Unknown0x108	= 0;
-			this.Reserved1		= 0;
-			this.Unknown0x10A	= 0;
-			this.Unknown0x10B	= 0;
-			this.Reserved2		= 0;
+			Reserved0		= new byte[0x108];
+			Unknown0x108	= 0;
+			Reserved1		= 0;
+			Unknown0x10A	= 0;
+			Unknown0x10B	= 0;
+			Reserved2		= 0;
 		}
 
 		#endregion
@@ -296,21 +291,21 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Reads the object header.</summary>*/
 		internal override void Read(BinaryReader reader) {
-			reader.Read(this.Reserved0, 0, this.Reserved0.Length);
-			this.Unknown0x108	= reader.ReadByte();
-			this.Reserved1		= reader.ReadByte();
-			this.Unknown0x10A	= reader.ReadByte();
-			this.Unknown0x10B	= reader.ReadByte();
-			this.Reserved2		= reader.ReadUInt16();
+			reader.Read(Reserved0, 0, Reserved0.Length);
+			Unknown0x108	= reader.ReadByte();
+			Reserved1		= reader.ReadByte();
+			Unknown0x10A	= reader.ReadByte();
+			Unknown0x10B	= reader.ReadByte();
+			Reserved2		= reader.ReadUInt16();
 		}
 		/**<summary>Writes the object header.</summary>*/
 		internal override void Write(BinaryWriter writer) {
-			writer.Write(this.Reserved0);
-			writer.Write(this.Unknown0x108);
-			writer.Write(this.Reserved1);
-			writer.Write(this.Unknown0x10A);
-			writer.Write(this.Unknown0x10B);
-			writer.Write(this.Reserved2);
+			writer.Write(Reserved0);
+			writer.Write(Unknown0x108);
+			writer.Write(Reserved1);
+			writer.Write(Unknown0x10A);
+			writer.Write(Unknown0x10B);
+			writer.Write(Reserved2);
 		}
 
 		#endregion

@@ -17,8 +17,8 @@ namespace RCT2ObjectData.Objects.Types.AttractionInfo {
 		/**<summary>All track sections are available.</summary>*/
 		All = 0xFFFFFFFFFFFFFFFF,
 
-		UnknownFlag0 = 1 << 0,
-
+		/**<summary>Enables the flat track piece.</summary>*/
+		Flat = 1 << 0,
 		/**<summary>Enables the straight track piece.</summary>*/
 		Straight = 1 << 1,
 		/**<summary>Enables the station platform track piece.</summary>*/
@@ -119,6 +119,8 @@ namespace RCT2ObjectData.Objects.Types.AttractionInfo {
 		SpinningTunnel = 1UL << 46,
 		/**<summary>Enables the spinning toggle control track piece. This piece is exclusive to the spinning wild mouse.</summary>*/
 		SpinningToggleControl = 1UL << 47,
+		/**<summary>Enables the booster track piece. This flag is the same as spinning toggle control.</summary>*/
+		Booster = 1UL << 47,
 		/**<summary>Enables the uninverted in-line twist track pieces. These pieces support inversions to inverted track.</summary>*/
 		InlineTwistUninverted = 1UL << 48,
 		/**<summary>Enables the inverted in-line twist track pieces. These pieces support inversions to uninverted track.</summary>*/
@@ -143,6 +145,6 @@ namespace RCT2ObjectData.Objects.Types.AttractionInfo {
 		UnusedFlag60 = 1UL << 60,
 		UnusedFlag61 = 1UL << 61,
 		UnusedFlag62 = 1UL << 62,
-		UnusedFlag63 = 1UL << 63,
+		UnusedFlag63 = 1UL << 63
 	}
 }

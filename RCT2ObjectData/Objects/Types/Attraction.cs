@@ -34,16 +34,16 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object.</summary>*/
 		public Attraction() : base() {
-			this.Header			= new AttractionHeader();
-			this.CarColors		= new List<RemapColors[]>();
-			this.RiderPositions	= new List<byte[]>();
+			Header			= new AttractionHeader();
+			CarColors		= new List<RemapColors[]>();
+			RiderPositions	= new List<byte[]>();
 		}
 		/**<summary>Constructs the default object.</summary>*/
 		internal Attraction(ObjectDataHeader objectHeader, ChunkHeader chunkHeader)
 			: base(objectHeader, chunkHeader) {
-			this.Header			= new AttractionHeader();
-			this.CarColors		= new List<RemapColors[]>();
-			this.RiderPositions	= new List<byte[]>();
+			Header			= new AttractionHeader();
+			CarColors		= new List<RemapColors[]>();
+			RiderPositions	= new List<byte[]>();
 		}
 
 		#endregion
@@ -151,9 +151,9 @@ namespace RCT2ObjectData.Objects.Types {
 			byte b = reader.ReadByte();
 			int numStructures = ((b == 0xFF) ? 32 : b);
 			for (int i = 0; i < numStructures; i++) {
-				this.CarColors.Add(new RemapColors[3]);
+				CarColors.Add(new RemapColors[3]);
 				for (int j = 0; j < 3; j++) {
-					this.CarColors[this.CarColors.Count - 1][j] = (RemapColors)reader.ReadByte();
+					CarColors[CarColors.Count - 1][j] = (RemapColors)reader.ReadByte();
 				}
 			}
 
@@ -161,40 +161,40 @@ namespace RCT2ObjectData.Objects.Types {
 			for (int i = 0; i < 4; i++) {
 				byte b2 = reader.ReadByte();
 				int structureLength = (b2 == 0xFF ? reader.ReadUInt16() : b2);
-				this.RiderPositions.Add(new byte[structureLength]);
+				RiderPositions.Add(new byte[structureLength]);
 				for (int j = 0; j < structureLength; j++) {
-					this.RiderPositions[i][j] = reader.ReadByte();
+					RiderPositions[i][j] = reader.ReadByte();
 				}
 			}
 		}
 		/**<summary>Writes the object data optional.</summary>*/
 		protected override void WriteOptional(BinaryWriter writer) {
 			// Write the number of car color structures
-			if (this.CarColors.Count == 32)
+			if (CarColors.Count == 32)
 				writer.Write((byte)0xFF);
 			else
-				writer.Write((byte)(this.CarColors.Count));
+				writer.Write((byte)(CarColors.Count));
 
 			// Write each car color structure
-			for (int i = 0; i < this.CarColors.Count; i++) {
+			for (int i = 0; i < CarColors.Count; i++) {
 				for (int j = 0; j < 3; j++) {
-					writer.Write((byte)this.CarColors[i][j]);
+					writer.Write((byte)CarColors[i][j]);
 				}
 			}
 
 			// Write the rider positions for each car type
-			for (int i = 0; i < this.RiderPositions.Count; i++) {
-				if ((this.RiderPositions[i].Length & 0x00FF) == this.RiderPositions[i].Length && (ushort)this.RiderPositions[i].Length != 0x00FF) {
+			for (int i = 0; i < RiderPositions.Count; i++) {
+				if ((RiderPositions[i].Length & 0x00FF) == RiderPositions[i].Length && (ushort)RiderPositions[i].Length != 0x00FF) {
 					// If the rider positions structure length is less than 255, write it as a single byte
-					writer.Write((byte)this.RiderPositions[i].Length);
+					writer.Write((byte)RiderPositions[i].Length);
 				}
 				else {
 					// If the rider positions structure length is greater than or equal 255 write it as an unsigned short
 					writer.Write((byte)0xFF);
-					writer.Write((ushort)this.RiderPositions[i].Length);
+					writer.Write((ushort)RiderPositions[i].Length);
 				}
 				// Write the rider positions structure
-				writer.Write(this.RiderPositions[i]);
+				writer.Write(RiderPositions[i]);
 			}
 		}
 	
@@ -377,43 +377,43 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object header.</summary>*/
 		public AttractionHeader() {
-			this.Reserved0x00		= 0;
+			Reserved0x00			= 0;
 
-			this.Flags				= AttractionFlags.None;
-			this.TrackTypeList		= new TrackTypes[3];
-			for (int i = 0; i < this.TrackTypeList.Length; i++)
-				this.TrackTypeList[i] = TrackTypes.None;
+			Flags					= AttractionFlags.None;
+			TrackTypeList			= new TrackTypes[3];
+			for (int i = 0; i < TrackTypeList.Length; i++)
+				TrackTypeList[i]	= TrackTypes.None;
 
-			this.MinCarsPerTrain	= 0;
-			this.MaxCarsPerTrain	= 0;
-			this.CarsPerFlatRide	= 0;
+			MinCarsPerTrain			= 0;
+			MaxCarsPerTrain			= 0;
+			CarsPerFlatRide			= 0;
 
-			this.ZeroCars			= 0;
-			this.CarTabIndex		= 0;
+			ZeroCars				= 0;
+			CarTabIndex				= 0;
 
-			this.DefaultCarType		= CarTypes.CarType0;
-			this.FrontCarType		= CarTypes.None;
-			this.SecondCarType		= CarTypes.None;
-			this.RearCarType		= CarTypes.None;
-			this.ThirdCarType		= CarTypes.None;
+			DefaultCarType			= CarTypes.CarType0;
+			FrontCarType			= CarTypes.None;
+			SecondCarType			= CarTypes.None;
+			RearCarType				= CarTypes.None;
+			ThirdCarType			= CarTypes.None;
 
-			this.Padding0x19		= 0;
+			Padding0x19				= 0;
 
-			this.CarTypeList		= new CarHeader[4];
-			for (int i = 0; i < this.CarTypeList.Length; i++)
-				this.CarTypeList[i]	= new CarHeader();
+			CarTypeList				= new CarHeader[4];
+			for (int i = 0; i < CarTypeList.Length; i++)
+				CarTypeList[i]		= new CarHeader();
 
-			this.Excitement			= 0;
-			this.Intensity			= 0;
-			this.Nausea				= 0;
-			this.MaxHeight			= 0;
+			Excitement				= 0;
+			Intensity				= 0;
+			Nausea					= 0;
+			MaxHeight				= 0;
 
-			this.AvailableTrackSections	= TrackSections.None;
+			AvailableTrackSections	= TrackSections.None;
 
-			this.RideCategory			= RideCategories.None;
-			this.RideCategoryAlternate	= RideCategories.None;
-			this.SoldItem1			= ItemTypes.None;
-			this.SoldItem2			= ItemTypes.None;
+			RideCategory			= RideCategories.None;
+			RideCategoryAlternate	= RideCategories.None;
+			SoldItem1				= ItemTypes.None;
+			SoldItem2				= ItemTypes.None;
 		}
 
 		#endregion
@@ -513,89 +513,89 @@ namespace RCT2ObjectData.Objects.Types {
 		internal override void Read(BinaryReader reader) {
 			long startPosition = reader.BaseStream.Position;
 
-			this.Reserved0x00 = reader.ReadUInt64();
-			this.Flags = (AttractionFlags)reader.ReadUInt32();
+			Reserved0x00 = reader.ReadUInt64();
+			Flags = (AttractionFlags)reader.ReadUInt32();
 
 			for (int i = 0; i < 3; i++) {
-				this.TrackTypeList[i] = (TrackTypes)reader.ReadByte();
+				TrackTypeList[i] = (TrackTypes)reader.ReadByte();
 			}
 
-			this.MinCarsPerTrain = reader.ReadByte();
-			this.MaxCarsPerTrain = reader.ReadByte();
-			this.CarsPerFlatRide = reader.ReadByte();
+			MinCarsPerTrain = reader.ReadByte();
+			MaxCarsPerTrain = reader.ReadByte();
+			CarsPerFlatRide = reader.ReadByte();
 
-			this.ZeroCars = reader.ReadByte();
-			this.CarTabIndex = reader.ReadByte();
+			ZeroCars = reader.ReadByte();
+			CarTabIndex = reader.ReadByte();
 
-			this.DefaultCarType = (CarTypes)reader.ReadByte();
-			this.FrontCarType = (CarTypes)reader.ReadByte();
-			this.SecondCarType = (CarTypes)reader.ReadByte();
-			this.RearCarType = (CarTypes)reader.ReadByte();
-			this.ThirdCarType = (CarTypes)reader.ReadByte();
+			DefaultCarType = (CarTypes)reader.ReadByte();
+			FrontCarType = (CarTypes)reader.ReadByte();
+			SecondCarType = (CarTypes)reader.ReadByte();
+			RearCarType = (CarTypes)reader.ReadByte();
+			ThirdCarType = (CarTypes)reader.ReadByte();
 
-			this.Padding0x19 = reader.ReadByte();
+			Padding0x19 = reader.ReadByte();
 
 			for (int i = 0; i < 4; i++) {
-				this.CarTypeList[i].Read(reader);
+				CarTypeList[i].Read(reader);
 			}
 
 			reader.BaseStream.Position = startPosition + 0x1B2;
 
-			this.Excitement = reader.ReadByte();
-			this.Intensity = reader.ReadByte();
-			this.Nausea = reader.ReadByte();
-			this.MaxHeight = reader.ReadByte();
+			Excitement = reader.ReadByte();
+			Intensity = reader.ReadByte();
+			Nausea = reader.ReadByte();
+			MaxHeight = reader.ReadByte();
 
-			this.AvailableTrackSections = (TrackSections)reader.ReadUInt64();
+			AvailableTrackSections = (TrackSections)reader.ReadUInt64();
 
-			this.RideCategory = (RideCategories)reader.ReadByte();
-			this.RideCategoryAlternate = (RideCategories)reader.ReadByte();
-			this.SoldItem1 = (ItemTypes)reader.ReadByte();
-			this.SoldItem2 = (ItemTypes)reader.ReadByte();
+			RideCategory = (RideCategories)reader.ReadByte();
+			RideCategoryAlternate = (RideCategories)reader.ReadByte();
+			SoldItem1 = (ItemTypes)reader.ReadByte();
+			SoldItem2 = (ItemTypes)reader.ReadByte();
 		}
 		/**<summary>Writes the object header.</summary>*/
 		internal override void Write(BinaryWriter writer) {
 			long startPosition = writer.BaseStream.Position;
 
-			writer.Write(this.Reserved0x00);
-			writer.Write((uint)this.Flags);
+			writer.Write(Reserved0x00);
+			writer.Write((uint)Flags);
 
 			for (int i = 0; i < 3; i++) {
-				writer.Write((byte)this.TrackTypeList[i]);
+				writer.Write((byte)TrackTypeList[i]);
 			}
 
-			writer.Write(this.MinCarsPerTrain);
-			writer.Write(this.MaxCarsPerTrain);
-			writer.Write(this.CarsPerFlatRide);
+			writer.Write(MinCarsPerTrain);
+			writer.Write(MaxCarsPerTrain);
+			writer.Write(CarsPerFlatRide);
 
-			writer.Write(this.ZeroCars);
-			writer.Write(this.CarTabIndex);
+			writer.Write(ZeroCars);
+			writer.Write(CarTabIndex);
 
-			writer.Write((byte)this.DefaultCarType);
-			writer.Write((byte)this.FrontCarType);
-			writer.Write((byte)this.SecondCarType);
-			writer.Write((byte)this.RearCarType);
-			writer.Write((byte)this.ThirdCarType);
+			writer.Write((byte)DefaultCarType);
+			writer.Write((byte)FrontCarType);
+			writer.Write((byte)SecondCarType);
+			writer.Write((byte)RearCarType);
+			writer.Write((byte)ThirdCarType);
 
-			writer.Write(this.Padding0x19);
+			writer.Write(Padding0x19);
 
 			for (int i = 0; i < 4; i++) {
-				this.CarTypeList[i].Write(writer);
+				CarTypeList[i].Write(writer);
 			}
 
 			writer.BaseStream.Position = startPosition + 0x1B2;
 
-			writer.Write(this.Excitement);
-			writer.Write(this.Intensity);
-			writer.Write(this.Nausea);
-			writer.Write(this.MaxHeight);
+			writer.Write(Excitement);
+			writer.Write(Intensity);
+			writer.Write(Nausea);
+			writer.Write(MaxHeight);
 
-			writer.Write((ulong)this.AvailableTrackSections);
+			writer.Write((ulong)AvailableTrackSections);
 
-			writer.Write((byte)this.RideCategory);
-			writer.Write((byte)this.RideCategoryAlternate);
-			writer.Write((byte)this.SoldItem1);
-			writer.Write((byte)this.SoldItem2);
+			writer.Write((byte)RideCategory);
+			writer.Write((byte)RideCategoryAlternate);
+			writer.Write((byte)SoldItem1);
+			writer.Write((byte)SoldItem2);
 		}
 
 		#endregion
@@ -682,43 +682,43 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default attraction car header.</summary>*/
 		public CarHeader() {
-			this.LastRotationFrame = 0;
-			this.NumVerticalFramesUnused = 0;
-			this.NumHorizontalFramesUnused = 0;
+			LastRotationFrame = 0;
+			NumVerticalFramesUnused = 0;
+			NumHorizontalFramesUnused = 0;
 
-			this.Spacing = 0;
-			this.CarFriction = 0;
-			this.CarTabHeight = 0;
-			this.RiderSettings = 0;
-			this.SpriteFlags = CarSpriteFlags.None;
+			Spacing = 0;
+			CarFriction = 0;
+			CarTabHeight = 0;
+			RiderSettings = 0;
+			SpriteFlags = CarSpriteFlags.None;
 
-			this.SpriteWidth = 0;
-			this.SpriteHeightPositive = 0;
-			this.SpriteHeightNegative = 0;
+			SpriteWidth = 0;
+			SpriteHeightPositive = 0;
+			SpriteHeightNegative = 0;
 
-			this.Animation = 0;
-			this.Flags = CarFlags.None;
-			this.BaseNumFrames = 0;
+			Animation = 0;
+			Flags = CarFlags.None;
+			BaseNumFrames = 0;
 
-			this.Reserved0x18 = new byte[60];
-			for (int i = 0; i < this.Reserved0x18.Length; i++) this.Reserved0x18[i] = 0;
+			Reserved0x18 = new byte[60];
+			for (int i = 0; i < Reserved0x18.Length; i++) Reserved0x18[i] = 0;
 
-			this.RiderSprites = 0;
-			this.SpinningInertia = 0;
-			this.SpinningFriction = 0;
+			RiderSprites = 0;
+			SpinningInertia = 0;
+			SpinningFriction = 0;
 
-			this.FrictionSoundID = 0;
-			this.Unknown0x58 = 0;
-			this.SoundRange = 0;
-			this.Unknown0x5A = 0;
+			FrictionSoundID = 0;
+			Unknown0x58 = 0;
+			SoundRange = 0;
+			Unknown0x5A = 0;
 
-			this.PoweredAcceleration = 0;
-			this.PoweredMaxSpeed = 0;
-			this.CarVisual = CarVisuals.Default;
-			this.EffectVisual = CarEffectVisuals.Default;
-			this.DrawOrder = 0;
-			this.SpecialFrames = 0;
-			this.Reserved0x61 = 0;
+			PoweredAcceleration = 0;
+			PoweredMaxSpeed = 0;
+			CarVisual = CarVisuals.Default;
+			EffectVisual = CarEffectVisuals.Default;
+			DrawOrder = 0;
+			SpecialFrames = 0;
+			Reserved0x61 = 0;
 		}
 
 		#endregion
@@ -809,85 +809,85 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Reads the object header.</summary>*/
 		public void Read(BinaryReader reader) {
-			this.LastRotationFrame = reader.ReadUInt16();
+			LastRotationFrame = reader.ReadUInt16();
 
-			this.NumVerticalFramesUnused = reader.ReadByte();
-			this.NumHorizontalFramesUnused = reader.ReadByte();
+			NumVerticalFramesUnused = reader.ReadByte();
+			NumHorizontalFramesUnused = reader.ReadByte();
 
-			this.Spacing = reader.ReadUInt32();
-			this.CarFriction = reader.ReadUInt16();
-			this.CarTabHeight = reader.ReadSByte();
-			this.RiderSettings = reader.ReadByte();
-			this.SpriteFlags = (CarSpriteFlags)reader.ReadUInt16();
+			Spacing = reader.ReadUInt32();
+			CarFriction = reader.ReadUInt16();
+			CarTabHeight = reader.ReadSByte();
+			RiderSettings = reader.ReadByte();
+			SpriteFlags = (CarSpriteFlags)reader.ReadUInt16();
 
-			this.SpriteWidth = reader.ReadByte();
-			this.SpriteHeightPositive = reader.ReadByte();
-			this.SpriteHeightNegative = reader.ReadByte();
+			SpriteWidth = reader.ReadByte();
+			SpriteHeightPositive = reader.ReadByte();
+			SpriteHeightNegative = reader.ReadByte();
 
-			this.Animation = reader.ReadByte();
-			this.Flags = (CarFlags)reader.ReadUInt32();
-			this.BaseNumFrames = reader.ReadUInt16();
+			Animation = reader.ReadByte();
+			Flags = (CarFlags)reader.ReadUInt32();
+			BaseNumFrames = reader.ReadUInt16();
 
-			reader.Read(this.Reserved0x18, 0, this.Reserved0x18.Length);
+			reader.Read(Reserved0x18, 0, Reserved0x18.Length);
 
-			this.RiderSprites = reader.ReadByte();
-			this.SpinningInertia = reader.ReadByte();
-			this.SpinningFriction = reader.ReadByte();
+			RiderSprites = reader.ReadByte();
+			SpinningInertia = reader.ReadByte();
+			SpinningFriction = reader.ReadByte();
 
-			this.FrictionSoundID = reader.ReadByte();
-			this.Unknown0x58 = reader.ReadByte();
-			this.SoundRange = reader.ReadByte();
-			this.Unknown0x5A = reader.ReadByte();
+			FrictionSoundID = reader.ReadByte();
+			Unknown0x58 = reader.ReadByte();
+			SoundRange = reader.ReadByte();
+			Unknown0x5A = reader.ReadByte();
 
-			this.PoweredAcceleration = reader.ReadByte();
-			this.PoweredMaxSpeed = reader.ReadByte();
-			this.CarVisual = (CarVisuals)reader.ReadByte();
-			this.EffectVisual = (CarEffectVisuals)reader.ReadByte();
-			this.DrawOrder = reader.ReadByte();
-			this.SpecialFrames = reader.ReadByte();
+			PoweredAcceleration = reader.ReadByte();
+			PoweredMaxSpeed = reader.ReadByte();
+			CarVisual = (CarVisuals)reader.ReadByte();
+			EffectVisual = (CarEffectVisuals)reader.ReadByte();
+			DrawOrder = reader.ReadByte();
+			SpecialFrames = reader.ReadByte();
 
-			this.Reserved0x61 = reader.ReadUInt32();
+			Reserved0x61 = reader.ReadUInt32();
 		}
 		/**<summary>Writes the object header.</summary>*/
 		public void Write(BinaryWriter writer) {
-			writer.Write(this.LastRotationFrame);
+			writer.Write(LastRotationFrame);
 
-			writer.Write(this.NumVerticalFramesUnused);
-			writer.Write(this.NumHorizontalFramesUnused);
+			writer.Write(NumVerticalFramesUnused);
+			writer.Write(NumHorizontalFramesUnused);
 
-			writer.Write(this.Spacing);
-			writer.Write(this.CarFriction);
-			writer.Write(this.CarTabHeight);
-			writer.Write(this.RiderSettings);
-			writer.Write((ushort)this.SpriteFlags);
+			writer.Write(Spacing);
+			writer.Write(CarFriction);
+			writer.Write(CarTabHeight);
+			writer.Write(RiderSettings);
+			writer.Write((ushort)SpriteFlags);
 
-			writer.Write(this.SpriteWidth);
-			writer.Write(this.SpriteHeightPositive);
-			writer.Write(this.SpriteHeightNegative);
+			writer.Write(SpriteWidth);
+			writer.Write(SpriteHeightPositive);
+			writer.Write(SpriteHeightNegative);
 
-			writer.Write(this.Animation);
-			writer.Write((uint)this.Flags);
-			writer.Write(this.BaseNumFrames);
+			writer.Write(Animation);
+			writer.Write((uint)Flags);
+			writer.Write(BaseNumFrames);
 
-			writer.Write(this.Reserved0x18);
+			writer.Write(Reserved0x18);
 
-			writer.Write(this.RiderSprites);
-			writer.Write(this.SpinningInertia);
-			writer.Write(this.SpinningFriction);
+			writer.Write(RiderSprites);
+			writer.Write(SpinningInertia);
+			writer.Write(SpinningFriction);
 
-			writer.Write(this.FrictionSoundID);
-			writer.Write(this.Unknown0x58);
-			writer.Write(this.SoundRange);
-			writer.Write(this.Unknown0x5A);
+			writer.Write(FrictionSoundID);
+			writer.Write(Unknown0x58);
+			writer.Write(SoundRange);
+			writer.Write(Unknown0x5A);
 
-			writer.Write(this.PoweredAcceleration);
-			writer.Write(this.PoweredMaxSpeed);
-			writer.Write((byte)this.CarVisual);
-			writer.Write((byte)this.EffectVisual);
-			writer.Write(this.DrawOrder);
-			writer.Write(this.SpecialFrames);
+			writer.Write(PoweredAcceleration);
+			writer.Write(PoweredMaxSpeed);
+			writer.Write((byte)CarVisual);
+			writer.Write((byte)EffectVisual);
+			writer.Write(DrawOrder);
+			writer.Write(SpecialFrames);
 
-			writer.Write(this.Reserved0x61);
+			writer.Write(Reserved0x61);
 		}
 
 		#endregion

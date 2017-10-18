@@ -29,12 +29,12 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object.</summary>*/
 		public PathAddition() : base() {
-			this.Header				= new PathAdditionHeader();
+			Header = new PathAdditionHeader();
 		}
 		/**<summary>Constructs the default object.</summary>*/
 		internal PathAddition(ObjectDataHeader objectHeader, ChunkHeader chunkHeader)
 			: base(objectHeader, chunkHeader) {
-			this.Header				= new PathAdditionHeader();
+			Header = new PathAdditionHeader();
 		}
 
 		#endregion
@@ -183,14 +183,14 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object header.</summary>*/
 		public PathAdditionHeader() {
-			this.Reserved0	= 0;
-			this.Reserved1	= 0;
-			this.Flags		= PathAdditionFlags.None;
-			this.Subtype	= PathAdditionSubtypes.Lamp;
-			this.Cursor		= 0;
-			this.BuildCost	= 0;
-			this.Reserved2	= 0;
-			this.Reserved3	= 0;
+			Reserved0	= 0;
+			Reserved1	= 0;
+			Flags		= PathAdditionFlags.None;
+			Subtype		= PathAdditionSubtypes.Lamp;
+			Cursor		= 0;
+			BuildCost	= 0;
+			Reserved2	= 0;
+			Reserved3	= 0;
 		}
 
 		#endregion
@@ -224,25 +224,25 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Reads the object header.</summary>*/
 		internal override void Read(BinaryReader reader) {
-			this.Reserved0	= reader.ReadUInt16();
-			this.Reserved1	= reader.ReadUInt32();
-			this.Flags		= (PathAdditionFlags)reader.ReadUInt16();
-			this.Subtype	= (PathAdditionSubtypes)reader.ReadByte();
-			this.Cursor		= reader.ReadByte();
-			this.BuildCost	= reader.ReadUInt16();
-			this.Reserved2	= reader.ReadByte();
-			this.Reserved3	= reader.ReadByte();
+			Reserved0	= reader.ReadUInt16();
+			Reserved1	= reader.ReadUInt32();
+			Flags		= (PathAdditionFlags)reader.ReadUInt16();
+			Subtype		= (PathAdditionSubtypes)reader.ReadByte();
+			Cursor		= reader.ReadByte();
+			BuildCost	= reader.ReadUInt16();
+			Reserved2	= reader.ReadByte();
+			Reserved3	= reader.ReadByte();
 		}
 		/**<summary>Writes the object header.</summary>*/
 		internal override void Write(BinaryWriter writer) {
-			writer.Write(this.Reserved0);
-			writer.Write(this.Reserved1);
-			writer.Write((ushort)this.Flags);
-			writer.Write((byte)this.Subtype);
-			writer.Write(this.Cursor);
-			writer.Write(this.BuildCost);
-			writer.Write(this.Reserved2);
-			writer.Write(this.Reserved3);
+			writer.Write(Reserved0);
+			writer.Write(Reserved1);
+			writer.Write((ushort)Flags);
+			writer.Write((byte)Subtype);
+			writer.Write(Cursor);
+			writer.Write(BuildCost);
+			writer.Write(Reserved2);
+			writer.Write(Reserved3);
 		}
 
 		#endregion

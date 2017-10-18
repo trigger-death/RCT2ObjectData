@@ -29,12 +29,12 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object.</summary>*/
 		public ParkEntrance() : base() {
-			this.Header				= new ParkEntranceHeader();
+			Header = new ParkEntranceHeader();
 		}
 		/**<summary>Constructs the default object.</summary>*/
 		internal ParkEntrance(ObjectDataHeader objectHeader, ChunkHeader chunkHeader)
 			: base(objectHeader, chunkHeader) {
-			this.Header				= new ParkEntranceHeader();
+			Header = new ParkEntranceHeader();
 		}
 
 		#endregion
@@ -156,9 +156,9 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object header.</summary>*/
 		public ParkEntranceHeader() {
-			this.Reserved = new byte[6];
-			this.SignX	= 0;
-			this.SignY	= 0;
+			Reserved	= new byte[6];
+			SignX		= 0;
+			SignY		= 0;
 		}
 
 		#endregion
@@ -182,15 +182,15 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Reads the object header.</summary>*/
 		internal override void Read(BinaryReader reader) {
-			reader.Read(this.Reserved, 0, this.Reserved.Length);
-			this.SignX	= reader.ReadByte();
-			this.SignY	= reader.ReadByte();
+			reader.Read(Reserved, 0, Reserved.Length);
+			SignX = reader.ReadByte();
+			SignY = reader.ReadByte();
 		}
 		/**<summary>Writes the object header.</summary>*/
 		internal override void Write(BinaryWriter writer) {
-			writer.Write(this.Reserved);
-			writer.Write(this.SignX);
-			writer.Write(this.SignY);
+			writer.Write(Reserved);
+			writer.Write(SignX);
+			writer.Write(SignY);
 		}
 
 		#endregion

@@ -31,14 +31,14 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object.</summary>*/
 		public SmallScenery() : base() {
-			this.Header				= new SmallSceneryHeader();
-			this.AnimationSequence	= new List<byte>();
+			Header				= new SmallSceneryHeader();
+			AnimationSequence	= new List<byte>();
 		}
 		/**<summary>Constructs the default object.</summary>*/
 		internal SmallScenery(ObjectDataHeader objectHeader, ChunkHeader chunkHeader)
 			: base(objectHeader, chunkHeader) {
-			this.Header				= new SmallSceneryHeader();
-			this.AnimationSequence	= new List<byte>();
+			Header				= new SmallSceneryHeader();
+			AnimationSequence	= new List<byte>();
 		}
 
 		#endregion
@@ -82,7 +82,7 @@ namespace RCT2ObjectData.Objects.Types {
 		}
 		/**<summary>Gets the number of color remaps.</summary>*/
 		public override int ColorRemaps {
-			get { return (Header.Flags.HasFlag(SmallSceneryFlags.Color2) ? 2 : (Header.Flags.HasFlag(SmallSceneryFlags.Color1) ? 1 : 0)); }
+			get { return (Header.Flags.HasFlag(SmallSceneryFlags.Remap2) ? 2 : (Header.Flags.HasFlag(SmallSceneryFlags.Remap1) ? 1 : 0)); }
 		}
 		/**<summary>Gets if the dialog view has color remaps.</summary>*/
 		public override bool HasDialogColorRemaps {
@@ -123,8 +123,8 @@ namespace RCT2ObjectData.Objects.Types {
 		protected override void WriteOptional(BinaryWriter writer) {
 			// Animation sequence
 			if (Header.Flags.HasFlag(SmallSceneryFlags.AnimationData)) {
-				for (int i = 0; i < this.AnimationSequence.Count; i++) {
-					writer.Write(this.AnimationSequence[i]);
+				for (int i = 0; i < AnimationSequence.Count; i++) {
+					writer.Write(AnimationSequence[i]);
 				}
 				writer.Write((byte)0xFF);
 			}
@@ -194,6 +194,10 @@ namespace RCT2ObjectData.Objects.Types {
 			return true;
 		}
 
+		#endregion
+		//=========== HELPERS ============
+		#region Helpers
+
 		private void DrawFrame(PaletteImage p, Point position, DrawSettings drawSettings, int frame, bool glass) {
 			bool offset = Header.Flags.HasFlag(SmallSceneryFlags.Offset);
 			bool fullSquare = Header.Flags.HasFlag(SmallSceneryFlags.FullSquare);
@@ -211,8 +215,8 @@ namespace RCT2ObjectData.Objects.Types {
 				position.X + (fullSquare ? 0 : cornerX) + (offset ? 0 : 0) + (half ? 0 : 0),
 				position.Y + (fullSquare ? 0 : cornerY) + (offset ? (!fullSquare ? 13 : 0) + (half ? 11 : 0) + 3 : 16) + (half ? -12 : 0),
 				drawSettings.Darkness, glass,
-				(Header.Flags.HasFlag(SmallSceneryFlags.Color1) || Header.Flags.HasFlag(SmallSceneryFlags.Color2)) ? drawSettings.Remap1 : RemapColors.None,
-				(Header.Flags.HasFlag(SmallSceneryFlags.Color2) || (Header.Flags.HasFlag(SmallSceneryFlags.Color1) && glass)) ? (glass ? drawSettings.Remap1 : drawSettings.Remap2) : RemapColors.None,
+				(Header.Flags.HasFlag(SmallSceneryFlags.Remap1) || Header.Flags.HasFlag(SmallSceneryFlags.Remap2)) ? drawSettings.Remap1 : RemapColors.None,
+				(Header.Flags.HasFlag(SmallSceneryFlags.Remap2) || (Header.Flags.HasFlag(SmallSceneryFlags.Remap1) && glass)) ? (glass ? drawSettings.Remap1 : drawSettings.Remap2) : RemapColors.None,
 				RemapColors.None
 			);
 		}
@@ -227,8 +231,8 @@ namespace RCT2ObjectData.Objects.Types {
 				position.X + (fullSquare ? 0 : cornerX) + (offset ? 0 : 0) + (half ? 0 : 0),
 				position.Y + (fullSquare ? 0 : cornerY) + (offset ? (!fullSquare ? 13 : 0) + (half ? 11 : 0) + 3 : 16) + (half ? -12 : 0),
 				drawSettings.Darkness, glass,
-				(Header.Flags.HasFlag(SmallSceneryFlags.Color1) || Header.Flags.HasFlag(SmallSceneryFlags.Color2)) ? drawSettings.Remap1 : RemapColors.None,
-				(Header.Flags.HasFlag(SmallSceneryFlags.Color2) || (Header.Flags.HasFlag(SmallSceneryFlags.Color1) && glass)) ? (glass ? drawSettings.Remap1 : drawSettings.Remap2) : RemapColors.None,
+				(Header.Flags.HasFlag(SmallSceneryFlags.Remap1) || Header.Flags.HasFlag(SmallSceneryFlags.Remap2)) ? drawSettings.Remap1 : RemapColors.None,
+				(Header.Flags.HasFlag(SmallSceneryFlags.Remap2) || (Header.Flags.HasFlag(SmallSceneryFlags.Remap1) && glass)) ? (glass ? drawSettings.Remap1 : drawSettings.Remap2) : RemapColors.None,
 				RemapColors.None
 			);
 		}
@@ -277,19 +281,19 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Constructs the default object header.</summary>*/
 		public SmallSceneryHeader() {
-			this.MessageRef = 0;
-			this.Fill1 = 0;
-			this.Flags = SmallSceneryFlags.None;
-			this.Height = 0;
-			this.Cursor = 0;
-			this.BuildCost = 0;
-			this.RemoveCost = 0;
-			this.GraphicsStart = 0;
-			this.Animation1 = 0;
-			this.Animation2 = 0;
-			this.Animation3 = 0;
-			this.BaseIndex = 0;
-			this.Fill2 = 0;
+			MessageRef		= 0;
+			Fill1			= 0;
+			Flags			= SmallSceneryFlags.None;
+			Height			= 0;
+			Cursor			= 0;
+			BuildCost		= 0;
+			RemoveCost		= 0;
+			GraphicsStart	= 0;
+			Animation1		= 0;
+			Animation2		= 0;
+			Animation3		= 0;
+			BaseIndex		= 0;
+			Fill2			= 0;
 		}
 
 		#endregion
@@ -323,35 +327,35 @@ namespace RCT2ObjectData.Objects.Types {
 
 		/**<summary>Reads the object header.</summary>*/
 		internal override void Read(BinaryReader reader) {
-			this.MessageRef = reader.ReadUInt16();
-			this.Fill1 = reader.ReadUInt32();
-			this.Flags = (SmallSceneryFlags)reader.ReadUInt32();
-			this.Height = reader.ReadByte();
-			this.Cursor = reader.ReadByte();
-			this.BuildCost = reader.ReadInt16();
-			this.RemoveCost = reader.ReadInt16();
-			this.GraphicsStart = reader.ReadUInt32();
-			this.Animation1 = reader.ReadUInt16();
-			this.Animation2 = reader.ReadUInt16();
-			this.Animation3 = reader.ReadUInt16();
-			this.BaseIndex = reader.ReadByte();
-			this.Fill2 = reader.ReadByte();
+			MessageRef = reader.ReadUInt16();
+			Fill1 = reader.ReadUInt32();
+			Flags = (SmallSceneryFlags)reader.ReadUInt32();
+			Height = reader.ReadByte();
+			Cursor = reader.ReadByte();
+			BuildCost = reader.ReadInt16();
+			RemoveCost = reader.ReadInt16();
+			GraphicsStart = reader.ReadUInt32();
+			Animation1 = reader.ReadUInt16();
+			Animation2 = reader.ReadUInt16();
+			Animation3 = reader.ReadUInt16();
+			BaseIndex = reader.ReadByte();
+			Fill2 = reader.ReadByte();
 		}
 		/**<summary>Writes the object header.</summary>*/
 		internal override void Write(BinaryWriter writer) {
-			writer.Write(this.MessageRef);
-			writer.Write(this.Fill1);
-			writer.Write((uint)this.Flags);
-			writer.Write(this.Height);
-			writer.Write(this.Cursor);
-			writer.Write(this.BuildCost);
-			writer.Write(this.RemoveCost);
-			writer.Write(this.GraphicsStart);
-			writer.Write(this.Animation1);
-			writer.Write(this.Animation2);
-			writer.Write(this.Animation3);
-			writer.Write(this.BaseIndex);
-			writer.Write(this.Fill2);
+			writer.Write(MessageRef);
+			writer.Write(Fill1);
+			writer.Write((uint)Flags);
+			writer.Write(Height);
+			writer.Write(Cursor);
+			writer.Write(BuildCost);
+			writer.Write(RemoveCost);
+			writer.Write(GraphicsStart);
+			writer.Write(Animation1);
+			writer.Write(Animation2);
+			writer.Write(Animation3);
+			writer.Write(BaseIndex);
+			writer.Write(Fill2);
 		}
 
 		#endregion
@@ -382,7 +386,7 @@ namespace RCT2ObjectData.Objects.Types {
 		/**<summary>A "glass" object: the first image is the "frame" and the second image is the "glass"</summary>*/
 		Glass = 1 << 9,
 		/**<summary>Uses the first remappable color</summary>*/
-		Color1 = 1 << 10,
+		Remap1 = 1 << 10,
 		/**<summary>Use fountain drawing logic = 2 frames: the first frame is stationary and the second is animated</summary>*/
 		FountainSpray1 = 1 << 11,
 		/**<summary>Use fountain/4 drawing logic = the first frame is stationary; there are "back" and "front" animations (for 4 fountain sprays)</summary>*/
@@ -400,7 +404,7 @@ namespace RCT2ObjectData.Objects.Types {
 		/**<summary>Specifies that no walls may be built at the same location as this object (can be built below and above)</summary>*/
 		NoWalls = 1 << 18,
 		/**<summary>Uses the second remappable color</summary>*/
-		Color2 = 1 << 19,
+		Remap2 = 1 << 19,
 		/**<summary>No supports - useful for "building" components: walls/roofs, etc</summary>*/
 		NoSupports = 1 << 20,
 		/**<summary>First set of frames are only for the scenery dialog</summary>*/

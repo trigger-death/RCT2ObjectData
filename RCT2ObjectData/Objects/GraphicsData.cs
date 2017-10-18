@@ -33,21 +33,21 @@ namespace RCT2ObjectData.Objects {
 
 		/**<summary>Constructs the default graphics data.</summary>*/
 		public GraphicsData() {
-			this.imageDirectory	= new ImageDirectory();
+			imageDirectory	= new ImageDirectory();
 
-			this.paletteImages	= new List<PaletteImage>();
-			this.palettes		= new List<Palette>();
-			this.numImages		= 0;
-			this.numPalettes	= 0;
+			paletteImages	= new List<PaletteImage>();
+			palettes		= new List<Palette>();
+			numImages		= 0;
+			numPalettes		= 0;
 		}
 		/**<summary>Constructs the default graphics data with the specified image directory.</summary>*/
 		public GraphicsData(ImageDirectory imageDirectory) {
 			this.imageDirectory	= imageDirectory;
 
-			this.paletteImages	= new List<PaletteImage>();
-			this.palettes		= new List<Palette>();
-			this.numImages		= 0;
-			this.numPalettes	= 0;
+			paletteImages	= new List<PaletteImage>();
+			palettes		= new List<Palette>();
+			numImages		= 0;
+			numPalettes		= 0;
 		}
 
 		#endregion
@@ -71,13 +71,13 @@ namespace RCT2ObjectData.Objects {
 
 		/**<summary>Removes the palette or palette image at the specified index.</summary>*/
 		public void RemoveAt(int index) {
-			if (this.paletteImages[index] != null)
-				this.numImages--;
+			if (paletteImages[index] != null)
+				numImages--;
 			else
-				this.numPalettes--;
-			this.paletteImages.RemoveAt(index);
-			this.palettes.RemoveAt(index);
-			this.imageDirectory.entries.RemoveAt(index);
+				numPalettes--;
+			paletteImages.RemoveAt(index);
+			palettes.RemoveAt(index);
+			imageDirectory.entries.RemoveAt(index);
 		}
 
 		#endregion
@@ -86,57 +86,57 @@ namespace RCT2ObjectData.Objects {
 
 		/**<summary>Gets the palette image at the specified index.</summary>*/
 		public PaletteImage GetPaletteImage(int index) {
-			return this.paletteImages[index];
+			return paletteImages[index];
 		}
 		/**<summary>Sets the specified palette image at the specified index.</summary>*/
 		public void Set(int index, PaletteImage paletteImage) {
 			if (paletteImage != null) {
-				if (this.paletteImages[index] == null) {
-					this.numImages++;
-					if (this.palettes[index] != null) {
-						this.palettes[index] = null;
-						this.numPalettes--;
+				if (paletteImages[index] == null) {
+					numImages++;
+					if (palettes[index] != null) {
+						palettes[index] = null;
+						numPalettes--;
 					}
 				}
-				this.paletteImages[index] = paletteImage;
-				this.imageDirectory.entries[index] = paletteImage.entry;
+				paletteImages[index] = paletteImage;
+				imageDirectory.entries[index] = paletteImage.entry;
 			}
 		}
 		/**<summary>Returns true if the entry at the specified index is a palette image.</summary>*/
 		public bool IsPaletteImage(int index) {
-			return (this.paletteImages[index] != null);
+			return (paletteImages[index] != null);
 		}
 		/**<summary>Adds the specified palette image.</summary>*/
 		public void Add(PaletteImage paletteImage) {
-			this.paletteImages.Add(paletteImage);
-			this.palettes.Add(null);
-			this.imageDirectory.entries.Add(paletteImage.entry);
+			paletteImages.Add(paletteImage);
+			palettes.Add(null);
+			imageDirectory.entries.Add(paletteImage.entry);
 			if (paletteImage != null)
-				this.numImages++;
+				numImages++;
 		}
 		/**<summary>Removes the specified palette image.</summary>*/
 		public void Remove(PaletteImage paletteImage) {
 			if (paletteImage != null) {
-				int index = this.paletteImages.IndexOf(paletteImage);
-				this.paletteImages.RemoveAt(index);
-				this.palettes.RemoveAt(index);
-				this.imageDirectory.entries.RemoveAt(index);
-				this.numImages--;
+				int index = paletteImages.IndexOf(paletteImage);
+				paletteImages.RemoveAt(index);
+				palettes.RemoveAt(index);
+				imageDirectory.entries.RemoveAt(index);
+				numImages--;
 			}
 		}
 		/**<summary>Inserts the specified palette image at the specified index.</summary>*/
 		public void Insert(int index, PaletteImage paletteImage) {
 			if (paletteImage != null) {
-				this.paletteImages.Insert(index, paletteImage);
-				this.palettes.Insert(index, null);
-				this.imageDirectory.entries.Insert(index, paletteImage.entry);
-				this.numImages++;
+				paletteImages.Insert(index, paletteImage);
+				palettes.Insert(index, null);
+				imageDirectory.entries.Insert(index, paletteImage.entry);
+				numImages++;
 			}
 		}
 		/**<summary>Copies all the palette images to the specified array.</summary>*/
 		public void CopyTo(PaletteImage[] array, int destIndex = 0, int srcIndex = 0, int length = 0) {
-			for (int i = 0; i + srcIndex < this.paletteImages.Count && i + destIndex < array.Length && (i < length || length == 0); i++) {
-				array[i + destIndex] = this.paletteImages[i + srcIndex];
+			for (int i = 0; i + srcIndex < paletteImages.Count && i + destIndex < array.Length && (i < length || length == 0); i++) {
+				array[i + destIndex] = paletteImages[i + srcIndex];
 			}
 		}
 
@@ -146,55 +146,55 @@ namespace RCT2ObjectData.Objects {
 
 		/**<summary>Gets the palette at the specified index.</summary>*/
 		public Palette GetPalette(int index) {
-			return this.palettes[index];
+			return palettes[index];
 		}
 		/**<summary>Sets the specified palette at the specified index.</summary>*/
 		public void Set(int index, Palette palette) {
 			if (palette != null) {
-				if (this.palettes[index] == null) {
-					this.numPalettes++;
-					if (this.paletteImages[index] != null) {
-						this.paletteImages[index] = null;
-						this.numImages--;
+				if (palettes[index] == null) {
+					numPalettes++;
+					if (paletteImages[index] != null) {
+						paletteImages[index] = null;
+						numImages--;
 					}
 				}
-				this.palettes[index] = palette;
-				this.imageDirectory.entries[index] = palette.entry;
+				palettes[index] = palette;
+				imageDirectory.entries[index] = palette.entry;
 			}
 		}
 		/**<summary>Returns true if the entry at the specified index is a palette.</summary>*/
 		public bool IsPalette(int index) {
-			return (this.palettes[index] != null);
+			return (palettes[index] != null);
 		}
 		/**<summary>Adds the specified palette.</summary>*/
 		public void Add(Palette palette) {
-			this.palettes.Add(palette);
-			this.paletteImages.Add(null);
-			this.imageDirectory.entries.Add(palette.entry);
+			palettes.Add(palette);
+			paletteImages.Add(null);
+			imageDirectory.entries.Add(palette.entry);
 			if (palette != null)
-				this.numPalettes++;
+				numPalettes++;
 		}
 		/**<summary>Removes the specified palette.</summary>*/
 		public void Remove(Palette palette) {
 			if (palette != null) {
-				int index = this.palettes.IndexOf(palette);
-				this.paletteImages.RemoveAt(index);
-				this.imageDirectory.entries.RemoveAt(index);
-				this.numPalettes--;
+				int index = palettes.IndexOf(palette);
+				paletteImages.RemoveAt(index);
+				imageDirectory.entries.RemoveAt(index);
+				numPalettes--;
 			}
 		}
 		/**<summary>Inserts the specified palette at the specified index.</summary>*/
 		public void Insert(int index, Palette palette) {
 			if (palette != null) {
-				this.palettes.Insert(index, palette);
-				this.imageDirectory.entries.Insert(index, palette.entry);
-				this.numPalettes++;
+				palettes.Insert(index, palette);
+				imageDirectory.entries.Insert(index, palette.entry);
+				numPalettes++;
 			}
 		}
 		/**<summary>Copies all the palette to the specified array.</summary>*/
 		public void CopyTo(Palette[] array, int destIndex = 0, int srcIndex = 0, int length = 0) {
-			for (int i = 0; i + srcIndex < this.palettes.Count && i + destIndex < array.Length && (i < length || length == 0); i++) {
-				array[i + destIndex] = this.palettes[i + srcIndex];
+			for (int i = 0; i + srcIndex < palettes.Count && i + destIndex < array.Length && (i < length || length == 0); i++) {
+				array[i + destIndex] = palettes[i + srcIndex];
 			}
 		}
 
@@ -256,9 +256,9 @@ namespace RCT2ObjectData.Objects {
 							b1 = reader.ReadByte();
 							// Read the offset from the left edge of the image
 							b2 = reader.ReadByte();
-							for (int k = 0; k < (int)(b1 & 0x7F); k++) {
+							for (int k = 0; k < (b1 & 0x7F); k++) {
 								byte b3 = reader.ReadByte();
-								paletteImage.Pixels[(int)b2 + k, j] = b3;
+								paletteImage.Pixels[b2 + k, j] = b3;
 							}
 						}
 					}
@@ -316,9 +316,9 @@ namespace RCT2ObjectData.Objects {
 								paletteImage.Pixels[x, y] = b;
 							}
 						}
-						this.paletteImages.Add(paletteImage);
-						this.palettes.Add(null);
-						this.numImages++;
+						paletteImages.Add(paletteImage);
+						palettes.Add(null);
+						numImages++;
 					}
 					else {
 						if (entry.Flags.HasFlag(ImageFlags.LandTile)) {
@@ -345,15 +345,15 @@ namespace RCT2ObjectData.Objects {
 								b1 = reader.ReadByte();
 								// Read the offset from the left edge of the image
 								b2 = reader.ReadByte();
-								for (int k = 0; k < (int)(b1 & 0x7F); k++) {
+								for (int k = 0; k < (b1 & 0x7F); k++) {
 									byte b3 = reader.ReadByte();
-									paletteImage.Pixels[(int)b2 + k, j] = b3;
+									paletteImage.Pixels[b2 + k, j] = b3;
 								}
 							}
 						}
-						this.paletteImages.Add(paletteImage);
-						this.palettes.Add(null);
-						this.numImages++;
+						paletteImages.Add(paletteImage);
+						palettes.Add(null);
+						numImages++;
 					}
 				}
 				else if (entry.Flags.HasFlag(ImageFlags.PaletteEntries)) {
@@ -369,9 +369,9 @@ namespace RCT2ObjectData.Objects {
 
 						palette.Colors[j] = Color.FromArgb(red, green, blue);
 					}
-					this.paletteImages.Add(null);
-					this.palettes.Add(palette);
-					this.numPalettes++;
+					paletteImages.Add(null);
+					palettes.Add(palette);
+					numPalettes++;
 				}
 			}
 		}
@@ -388,7 +388,7 @@ namespace RCT2ObjectData.Objects {
 						if (entry.Flags.HasFlag(ImageFlags.LandTile)) {
 							// Don't know what this flag does, but images can still be written normally.
 						}
-						PaletteImage paletteImage = this.paletteImages[i];
+						PaletteImage paletteImage = paletteImages[i];
 
 						// Write each row
 						for (int y = 0; y < entry.Height; y++) {
@@ -402,14 +402,14 @@ namespace RCT2ObjectData.Objects {
 						if (entry.Flags.HasFlag(ImageFlags.LandTile)) {
 							// Don't know what this flag does, but images can still be written normally.
 						}
-						PaletteImage paletteImage = this.paletteImages[i];
+						PaletteImage paletteImage = paletteImages[i];
 
 						List<ScanLine> scanLines = new List<ScanLine>();
 						ushort[] rowOffsets = new ushort[entry.Height];
 						ushort rowOffset = (ushort)(entry.Height * 2);
 
 						// Write the scan lines in every row and figure out the scan line row offsets
-						for (int y = 0; y < (int)entry.Height; y++) {
+						for (int y = 0; y < entry.Height; y++) {
 							rowOffsets[y] = rowOffset;
 
 							ScanLine scanLine = new ScanLine();
@@ -477,7 +477,7 @@ namespace RCT2ObjectData.Objects {
 						for (int j = 0; j < scanLines.Count; j++) {
 							writer.Write(scanLines[j].Count);
 							writer.Write(scanLines[j].Offset);
-							for (int k = 0; k < (int)(scanLines[j].Count & 0x7F); k++) {
+							for (int k = 0; k < (scanLines[j].Count & 0x7F); k++) {
 								try {
 									writer.Write(paletteImage.Pixels[k + scanLines[j].Offset, scanLines[j].Row]);
 								}
@@ -489,7 +489,7 @@ namespace RCT2ObjectData.Objects {
 					}
 				}
 				else if (entry.Flags.HasFlag(ImageFlags.PaletteEntries)) {
-					Palette palette = this.palettes[i];
+					Palette palette = palettes[i];
 
 					// Write each color
 					for (int j = 0; j < entry.Width; j++) {
@@ -503,23 +503,44 @@ namespace RCT2ObjectData.Objects {
 		}
 
 		#endregion
-		//============ STATIC ============
-		#region Static
+		//============ SAVING ============
+		#region Saving
 
-		/**<summary>Saves the graphics directory to the specified file path.</summary>*/
-		public void Save(string path) {
-			BinaryWriter writer = new BinaryWriter(new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write));
-			long imageDirectoryPosition = writer.BaseStream.Position;
+		/**<summary>Saves the graphics directory to the specified stream.</summary>*/
+		public void Save(Stream stream) {
+			BinaryWriter writer = new BinaryWriter(stream);
+			long imageDirectoryPosition = stream.Position;
 
 			// Write the image directory and graphics data
 			imageDirectory.Write(writer);
 			Write(writer);
 
+			long endPosition = stream.Position;
+
 			// Rewrite the image directory after the image addresses are known
-			writer.BaseStream.Position = imageDirectoryPosition;
+			stream.Position = imageDirectoryPosition;
 			imageDirectory.Write(writer);
-			writer.Close();
+
+			stream.Position = endPosition;
 		}
+		/**<summary>Saves the graphics directory to the specified file path.</summary>*/
+		public void Save(string path) {
+			using (FileStream stream = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Write)) {
+				stream.SetLength(0);
+				Save(stream);
+			}
+		}
+		/**<summary>Saves the graphics directory to a new buffer</summary>*/
+		public byte[] ToBytes() {
+			using (MemoryStream stream = new MemoryStream()) {
+				Save(stream);
+				return stream.ToArray();
+			}
+		}
+
+		#endregion
+		//=========== LOADING ============
+		#region Loading
 
 		/**<summary>Returns an object loaded from the specified stream.</summary>*/
 		public static GraphicsData FromStream(Stream stream) {
@@ -528,17 +549,20 @@ namespace RCT2ObjectData.Objects {
 			BinaryReader reader = new BinaryReader(stream);
 			graphicsData.imageDirectory.Read(reader);
 			graphicsData.Read(reader);
-			reader.Close();
 
 			return graphicsData;
 		}
 		/**<summary>Returns an object loaded from the specified file path.</summary>*/
 		public static GraphicsData FromFile(string path) {
-			return FromStream(new FileStream(path, FileMode.Open, FileAccess.Read));
+			using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read)) {
+				return FromStream(stream);
+			}
 		}
 		/**<summary>Returns an object loaded from the specified buffer.</summary>*/
-		public static GraphicsData FromBuffer(byte[] buffer) {
-			return FromStream(new MemoryStream(buffer));
+		public static GraphicsData FromBytes(byte[] data) {
+			using (MemoryStream stream = new MemoryStream(data)) {
+				return FromStream(stream);
+			}
 		}
 
 		#endregion

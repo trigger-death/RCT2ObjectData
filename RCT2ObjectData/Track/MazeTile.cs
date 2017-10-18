@@ -24,15 +24,15 @@ namespace RCT2ObjectData.Track {
 
 		/**<summary>Constructs the default maze tile.</summary>*/
 		public MazeTile() {
-			this.X = 0;
-			this.Y = 0;
-			this.Walls = MazeWalls.All;
+			X = 0;
+			Y = 0;
+			Walls = MazeWalls.All;
 		}
 		/**<summary>Constructs the default maze tile.</summary>*/
 		public MazeTile(int x, int y, MazeWalls walls) {
-			this.X = (sbyte)x;
-			this.Y = (sbyte)y;
-			this.Walls = walls;
+			X = (sbyte)x;
+			Y = (sbyte)y;
+			Walls = walls;
 		}
 
 		#endregion
@@ -82,15 +82,15 @@ namespace RCT2ObjectData.Track {
 
 		/**<summary>Reads the maze tile.</summary>*/
 		public void Read(BinaryReader reader) {
-			this.X = reader.ReadSByte();
-			this.Y = reader.ReadSByte();
-			this.Walls = (MazeWalls)reader.ReadUInt16();
+			X = reader.ReadSByte();
+			Y = reader.ReadSByte();
+			Walls = (MazeWalls)reader.ReadUInt16();
 		}
 		/**<summary>Writes the maze tile.</summary>*/
 		public void Write(BinaryWriter writer) {
-			writer.Write(this.X);
-			writer.Write(this.Y);
-			writer.Write((ushort)this.Walls);
+			writer.Write(X);
+			writer.Write(Y);
+			writer.Write((ushort)Walls);
 		}
 
 		#endregion

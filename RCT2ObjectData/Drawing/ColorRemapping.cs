@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RCT2ObjectData.Drawing {
 	/**<summary>The data used for color remapping.</summary>*/
-	public class ColorRemapping {
+	public static class ColorRemapping {
 		//========== CONSTANTS ===========
 		#region Constants
 
@@ -28,7 +28,7 @@ namespace RCT2ObjectData.Drawing {
 
 		/**<summary>Loads the color remapping resources.</summary>*/
 		static ColorRemapping() {
-			GraphicsData graphicsData = GraphicsData.FromBuffer(Resources.RemapStrips);
+			GraphicsData graphicsData = GraphicsData.FromBytes(Resources.RemapStrips);
 
 			for (int i = 0; i < 32; i++) {
 				RemapPalette remaps = new RemapPalette(12);
@@ -64,10 +64,6 @@ namespace RCT2ObjectData.Drawing {
 	}
 	/**<summary>A palette for translating colors with during remaps.</summary>*/
 	public class RemapPalette {
-		//========== CONSTANTS ===========
-		#region Constants
-
-		#endregion
 		//=========== MEMBERS ============
 		#region Members
 
@@ -80,7 +76,20 @@ namespace RCT2ObjectData.Drawing {
 
 		/**<summary>Constructs a remap palette with the specified length.</summary>*/
 		public RemapPalette(int length) {
-			this.remapIndexes = new byte[length];
+			remapIndexes = new byte[length];
+		}
+
+		#endregion
+		//========== PROPERTIES ==========
+		#region Properties
+
+		/**<summary>Gets the number of remap indexes.</summary>*/
+		public int Count {
+			get { return remapIndexes.Length; }
+		}
+		/**<summary>Gets the remap indexes.</summary>*/
+		public byte[] RemapIndexes {
+			get { return remapIndexes; }
 		}
 
 		#endregion
