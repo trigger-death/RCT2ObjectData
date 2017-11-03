@@ -273,6 +273,14 @@ namespace RCT2ObjectData.Objects {
 		public const uint InitialChecksum = 0xF369A75B;
 
 		#endregion
+		//=========== SETTINGS ===========
+		#region Settings
+
+		/**<summary>If set. Characters with the code of 255 in Chinese/Japanese/Korean will be removed when converting to string
+		 * as they map to invalid characters.</summary>*/
+		public static bool IgnoreInvalidCJKCharacters { get; set; } = false;
+
+		#endregion
 		//=========== MEMBERS ============
 		#region Members
 

@@ -134,4 +134,55 @@ namespace RCT2ObjectData.Drawing {
 		Pink = 30,
 		Salmon = 31
 	}
+
+	/**<summary>Extensions for remap colors.</summary>*/
+	public static class RemapColorsExtensions {
+		/**<summary>Gets the proper name of the remap color.</summary>*/
+		public static string ToName(this RemapColors remap) {
+			switch (remap) {
+			case RemapColors.None: return "None";
+			#region Row 1
+			case RemapColors.Black: return "Black";
+			case RemapColors.Gray: return "Gray";
+			case RemapColors.White: return "White";
+			case RemapColors.Indigo: return "Indigo";
+			case RemapColors.SlateBlue: return "Slate Blue";
+			case RemapColors.Purple: return "Purple";
+			case RemapColors.Blue: return "Blue";
+			case RemapColors.LightBlue: return "Light Blue";
+			#endregion
+			#region Row 2
+			case RemapColors.Frost: return "Frost";
+			case RemapColors.Water: return "Water";
+			case RemapColors.LightWater: return "Light Water";
+			case RemapColors.Green: return "Green";
+			case RemapColors.SeaGreen: return "Sea Green";
+			case RemapColors.DarkOliveGreen: return "Dark Olive Green";
+			case RemapColors.Lime: return "Lime";
+			case RemapColors.OliveDrab: return "Olive Drab";
+			#endregion
+			#region Row 3
+			case RemapColors.Olive: return "Olive";
+			case RemapColors.Yellow: return "Yellow";
+			case RemapColors.Gold: return "Gold";
+			case RemapColors.Goldenrod: return "Goldenrod";
+			case RemapColors.Orange: return "Orange";
+			case RemapColors.DarkOrange: return "Dark Orange";
+			case RemapColors.LightBrown: return "Light Brown";
+			case RemapColors.Brown: return "Brown";
+			#endregion
+			#region Row 4
+			case RemapColors.Bark: return "Bark";
+			case RemapColors.Tan: return "Tan";
+			case RemapColors.IndianRed: return "Indian Red";
+			case RemapColors.DarkRed: return "Dark Red";
+			case RemapColors.Red: return "Red";
+			case RemapColors.Magenta: return "Magenta";
+			case RemapColors.Pink: return "Pink";
+			case RemapColors.Salmon: return "Salmon";
+				#endregion
+			}
+			return "Invalid";
+		}
+	}
 }

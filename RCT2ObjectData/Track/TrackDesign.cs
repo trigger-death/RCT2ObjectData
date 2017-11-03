@@ -29,7 +29,7 @@ namespace RCT2ObjectData.Track {
 		public byte VehicleColorScheme;
 		public RemapColors[] VehicleColorSpecifiers;
 
-		public byte Unknown0x48;
+		public byte Padding0x48;
 		public EntranceTypes EntranceType;
 
 		public byte AirTime;
@@ -51,9 +51,7 @@ namespace RCT2ObjectData.Track {
 		public byte Excitement;
 		public byte Intensity;
 		public byte Nausea;
-
-		public byte Unknown0x5E;
-		public byte Unknown0x5F;
+		public short UpkeepCost;
 
 		public RemapColors[] TrackSpineColors;
 		public RemapColors[] TrackRailColors;
@@ -89,7 +87,7 @@ namespace RCT2ObjectData.Track {
 			this.VehicleColorScheme = 0;
 			this.VehicleColorSpecifiers = new RemapColors[64];
 
-			this.Unknown0x48 = 0;
+			this.Padding0x48 = 0;
 
 			this.EntranceType = EntranceTypes.Plain;
 			this.AirTime = 0;
@@ -111,9 +109,7 @@ namespace RCT2ObjectData.Track {
 			this.Excitement = 0;
 			this.Intensity = 0;
 			this.Nausea = 0;
-
-			this.Unknown0x5E = 0;
-			this.Unknown0x5F = 0;
+			this.UpkeepCost = 0;
 
 			this.TrackSpineColors = new RemapColors[4];
 			this.TrackRailColors = new RemapColors[4];
@@ -177,7 +173,7 @@ namespace RCT2ObjectData.Track {
 			for (int i = 0; i < this.VehicleColorSpecifiers.Length; i++)
 				this.VehicleColorSpecifiers[i] = (RemapColors)reader.ReadByte();
 
-			this.Unknown0x48 = reader.ReadByte();
+			this.Padding0x48 = reader.ReadByte();
 			this.EntranceType = (EntranceTypes)reader.ReadByte();
 			this.AirTime = reader.ReadByte();
 			this.DepartureControlFlags = (DepartureControlFlags)reader.ReadByte();
@@ -198,9 +194,7 @@ namespace RCT2ObjectData.Track {
 			this.Excitement = reader.ReadByte();
 			this.Intensity = reader.ReadByte();
 			this.Nausea = reader.ReadByte();
-
-			this.Unknown0x5E = reader.ReadByte();
-			this.Unknown0x5F = reader.ReadByte();
+			this.UpkeepCost = reader.ReadInt16();
 
 			for (int i = 0; i < this.TrackSpineColors.Length; i++)
 				this.TrackSpineColors[i] = (RemapColors)reader.ReadByte();
@@ -264,7 +258,7 @@ namespace RCT2ObjectData.Track {
 			for (int i = 0; i < this.VehicleColorSpecifiers.Length; i++)
 				writer.Write((byte)this.VehicleColorSpecifiers[i]);
 
-			writer.Write(this.Unknown0x48);
+			writer.Write(this.Padding0x48);
 			writer.Write((byte)this.EntranceType);
 			writer.Write(this.AirTime);
 			writer.Write((byte)this.DepartureControlFlags);
@@ -285,9 +279,7 @@ namespace RCT2ObjectData.Track {
 			writer.Write(this.Excitement);
 			writer.Write(this.Intensity);
 			writer.Write(this.Nausea);
-
-			writer.Write(this.Unknown0x5E);
-			writer.Write(this.Unknown0x5F);
+			writer.Write(this.UpkeepCost);
 
 			for (int i = 0; i < this.TrackSpineColors.Length; i++)
 				writer.Write((byte)this.TrackSpineColors[i]);

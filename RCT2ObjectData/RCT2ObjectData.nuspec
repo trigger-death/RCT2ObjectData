@@ -11,5 +11,6 @@
     <description>Library for reading and writing RCT2 data files.</description>
     <copyright>Copyright Robert Jordan 2017</copyright>
     <tags>RollerCoaster Tycoon RCT2</tags>
+	<iconUrl>https://github.com/trigger-death/RCT2ObjectData/RCT2ObjectData/NuGetIcon.png</iconUrl>
   </metadata>
 </package>

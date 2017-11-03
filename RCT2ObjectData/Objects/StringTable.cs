@@ -63,11 +63,13 @@ namespace RCT2ObjectData.Objects {
 			ReplaceLatin(184, "\u2248"); // '≈'
 			ReplaceLatin(185, "\u207B\u00B9"); // '⁻¹'
 			ReplaceLatin(186, "\u2022"); // '•'
+
 			ReplaceLatin(188, "\u25B4"); // '▴'
 			ReplaceLatin(189, "\u25BE"); // '▾'
 			ReplaceLatin(190, "\u25C0"); // '◀'
 			
 			ReplaceLatin(198, "\u0143"); // 'Ń'
+
 			ReplaceLatin(208, "\u015A"); // 'Ś'
 			
 			ReplaceLatin(215, "\u0179"); // 'Ź'
@@ -135,6 +137,7 @@ namespace RCT2ObjectData.Objects {
 		/**<summary>Converts the RCT string to a real string.</summary>*/
 		public override string ToString() {
 			string str = "";
+			Encoding cjkCodePage = null;
 			switch (Language) {
 			case Languages.British:
 			case Languages.American:
@@ -154,17 +157,30 @@ namespace RCT2ObjectData.Objects {
 				}
 				break;
 			case Languages.Japanese:
-				str = JapaneseCodePage.GetString(Data.ToArray());
+				cjkCodePage = JapaneseCodePage;
 				break;
 			case Languages.Korean:
-				str = KoreanCodePage.GetString(Data.ToArray());
+				cjkCodePage = KoreanCodePage;
 				break;
 			case Languages.ChineseSimplified:
-				str = ChineseSimplifiedCodePage.GetString(Data.ToArray());
+				cjkCodePage = ChineseSimplifiedCodePage;
 				break;
 			case Languages.ChineseTraditional:
-				str = ChineseTraditionalCodePage.GetString(Data.ToArray());
+				cjkCodePage = ChineseTraditionalCodePage;
 				break;
+			}
+			if (cjkCodePage != null) {
+				if (ObjectData.IgnoreInvalidCJKCharacters) {
+					List<byte> newData = new List<byte>();
+					foreach (byte b in Data) {
+						if (b != 255)
+							newData.Add(b);
+					}
+					str = cjkCodePage.GetString(newData.ToArray());
+				}
+				else {
+					str = cjkCodePage.GetString(Data);
+				}
 			}
 			return str;
 		}
